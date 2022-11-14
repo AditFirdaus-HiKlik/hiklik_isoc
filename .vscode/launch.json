@@ -1,0 +1,49 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flutter Debug (Chrome)",
+            "program": "lib/main.dart",
+            "deviceId": "chrome",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "args": [
+                "-d",
+                "chrome",
+                "--web-renderer",
+                "html"
+            ]
+        },
+        {
+            "name": "Flutter Release (Chrome)",
+            "program": "lib/main.dart",
+            "deviceId": "chrome",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "args": [
+                "-d",
+                "chrome",
+                "--web-renderer",
+                "html"
+            ]
+        },
+        {
+            "name": "Flutter Debug (M2003J15SC)",
+            "program": "lib/main.dart",
+            "deviceId": "e39d90910406",
+            "request": "launch",
+            "flutterMode": "debug",
+            "type": "dart"
+        },
+        {
+            "name": "Flutter Release (M2003J15SC)",
+            "program": "lib/main.dart",
+            "deviceId": "e39d90910406",
+            "request": "launch",
+            "flutterMode": "release",
+            "type": "dart"
+        },
+    ]
+}
