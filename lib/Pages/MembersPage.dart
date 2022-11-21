@@ -417,7 +417,7 @@ class MembersGalleryGridItem extends StatelessWidget {
             );
           },
           progressIndicatorBuilder: (context, url, progress) {
-            return Center(child: const CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),

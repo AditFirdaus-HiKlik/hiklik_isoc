@@ -59,7 +59,7 @@ class _HomeMembersState extends State<HomeMembers> {
     return SingleChildScrollView(
         clipBehavior: Clip.none,
         child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -217,105 +217,108 @@ class MemberCard extends StatelessWidget {
       child: InkWell(
         onTap: () => HomeMembers.toMembersPage(context, _userData),
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                clipBehavior: Clip.antiAlias,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: CachedNetworkImage(
-                  width: 96,
-                  height: 96,
-                  imageUrl: _userData.user_avatar.url,
-                  fit: BoxFit.cover,
-                  errorWidget: (context, url, error) {
-                    return const Image(image: AssetImage('assets/avatar.png'));
-                  },
-                  progressIndicatorBuilder: (context, url, progress) {
-                    return const Center(child: CircularProgressIndicator());
-                  },
-                ),
-              ),
-              const VerticalDivider(
-                thickness: 1,
-                width: 16,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _userData.user_name,
-                    style: textH4,
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
                   ),
-                  const SizedBox(
-                    height: 4,
+                  child: CachedNetworkImage(
+                    width: 96,
+                    height: 96,
+                    imageUrl: _userData.user_avatar.url,
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) {
+                      return const Image(image: AssetImage('assets/avatar.png'));
+                    },
+                    progressIndicatorBuilder: (context, url, progress) {
+                      return const Center(child: CircularProgressIndicator());
+                    },
                   ),
-                  Row(
-                    children: [
-                      Card(
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8.0, top: 4.0, bottom: 4.0, right: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(
-                                Icons.sports_baseball,
-                                size: 8,
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                _userData.type_sports,
-                                style: textH4,
-                              ),
-                            ],
+                ),
+                const VerticalDivider(
+                  thickness: 1,
+                  width: 16,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _userData.user_name,
+                      style: textH4,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      children: [
+                        Card(
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, top: 4.0, bottom: 4.0, right: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.sports_baseball,
+                                  size: 8,
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  _userData.type_sports,
+                                  style: textH4,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Card(
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8.0, top: 4.0, bottom: 4.0, right: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(
-                                Icons.sports,
-                                size: 8,
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                _userData.type_role,
-                                style: textH4,
-                              ),
-                            ],
+                        Card(
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, top: 4.0, bottom: 4.0, right: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.sports,
+                                  size: 8,
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  _userData.type_role,
+                                  style: textH4,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

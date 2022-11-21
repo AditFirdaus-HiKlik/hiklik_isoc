@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hiklik_sports/AuthTree.dart';
@@ -97,7 +99,7 @@ class _SetupPageCState extends State<SetupPageC> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
                         Expanded(

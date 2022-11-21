@@ -34,9 +34,12 @@ class _AuthTreeState extends State<AuthTree> {
     return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        if (FirebaseAuth.instance.currentUser != null) {
-          User? user = snapshot.data;
-          bool verified = user!.emailVerified;
+
+        User? user = FirebaseAuth.instance.currentUser;
+
+        if (user != null) {
+
+          bool verified = user.emailVerified;
 
           if (verified) {
             return const HomePage();

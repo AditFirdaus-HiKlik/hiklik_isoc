@@ -28,7 +28,7 @@ class _HomeEventsState extends State<HomeEvents> {
       child: SingleChildScrollView(
           clipBehavior: Clip.none,
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -90,7 +90,7 @@ class EventCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 32),
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -1,6 +1,10 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:hiklik_sports/Classes/user.dart';
+import 'package:ntp/ntp.dart';
 import 'package:hiklik_sports/config.dart';
 import 'package:hiklik_sports/contents-api.dart';
 
@@ -8,6 +12,7 @@ List<NewsData> cachedNews = [];
 List<EventData> cachedEvent = [];
 List<UserData> cachedMember = [];
 List<LocationData> cachedLocation = [];
+List<StreamData> cachedStream = [];
 
 class EventData {
   String title = "";
@@ -57,6 +62,22 @@ class NewsData {
   }
 }
 
+class StreamData {
+  String name = "";
+  String description = "";
+  String id = "";
+
+  StreamData(this.name, this.id);
+
+  StreamData.fromJson(Map<String, dynamic> json) {
+    if (json.containsKey("name")) name = json['name'];
+    if (json.containsKey("description")) description = json['description'];
+    if (json.containsKey("id")) id = json['id'];
+
+    log(description);
+  }
+}
+
 Future fetchNews() async {
   cachedNews = await getNews(category: appSportMode);
 }
@@ -73,8 +94,35 @@ Future fetchLocations() async {
   cachedLocation = await getLocations(category: appSportMode);
 }
 
+Future fetchStreams() async {
+  cachedStream = await getStreams();
+}
+
 Future fetchAll() async {
   await fetchNews();
   await fetchEvents();
   await fetchLocations();
+  await fetchStreams();
+}
+
+Future<DateTime> internetTime() async {
+  if (await isConnectedToInternet()) {
+    return NTP.now();
+  } else {
+    return DateTime.now();
+  }
+}
+
+Future<bool> isConnectedToInternet() async {
+  bool connectionResult = false;
+  try {
+    final result = await InternetAddress.lookup('example.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      connectionResult = true;
+    }
+  } on SocketException catch (_) {}
+
+  log("Checking Connection... $connectionResult");
+
+  return connectionResult;
 }

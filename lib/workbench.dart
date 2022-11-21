@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:hiklik_sports/Classes/user.dart';
 
 class WorkBench extends StatefulWidget {
+  const WorkBench({super.key});
+
   @override
   State<WorkBench> createState() => _WorkBenchState();
 }

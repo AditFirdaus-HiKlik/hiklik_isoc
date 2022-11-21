@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:hiklik_sports/Pages/Home/HomeEvents.dart';
 import 'package:hiklik_sports/Pages/Home/HomeLocations.dart';
 import 'package:hiklik_sports/Pages/Home/HomeMembers.dart';
 import 'package:hiklik_sports/Pages/Home/HomeNews.dart';
+import 'package:hiklik_sports/Pages/Home/HomeStream.dart';
 import 'package:hiklik_sports/Pages/ProfilePage.dart';
 import 'package:hiklik_sports/Pages/SettingsPage.dart';
 import 'package:hiklik_sports/config.dart';
@@ -48,7 +51,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchAllTabs();
   }
@@ -63,7 +65,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: appColors[0],
@@ -140,13 +142,14 @@ class _HomePageState extends State<HomePage> {
               HomeEvents(),
               HomeMembers(),
               HomeLocations(),
+              HomeStream(),
             ],
           ),
         ),
         extendBody: true,
         extendBodyBehindAppBar: true,
         bottomNavigationBar: Container(
-          margin: const EdgeInsets.all(32),
+          margin: const EdgeInsets.all(16),
           height: 72,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -182,6 +185,10 @@ class _HomePageState extends State<HomePage> {
                 Tab(
                   icon: const Icon(Icons.location_on),
                   text: AppLocalizations.of(context)!.locations,
+                ),
+                const Tab(
+                  icon: Icon(Icons.broadcast_on_home),
+                  text: "Streams",
                 ),
               ],
             ),

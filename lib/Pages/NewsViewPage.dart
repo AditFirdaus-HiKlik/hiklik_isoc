@@ -23,65 +23,66 @@ class _NewsViewPageState extends State<NewsViewPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: ClipRect(
-        child: Scaffold(
-          appBar: AppBar(
+      child: Scaffold(
+        appBar: AppBar(
             backgroundColor: appColors[0],
-            leading: IconButton(
-                onPressed: toBack,
-                icon: Icon(
-                  Icons.arrow_circle_left_outlined,
-                  color: appColors[3],
-                )),
-          ),
-          body: SingleChildScrollView(
-            clipBehavior: Clip.none,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                elevation: 8,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        widget._newsData.title,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 16,),
-                      CachedNetworkImage(
-                        height: 256,
-                        imageUrl: widget._newsData.featured_image,
-                        fit: BoxFit.cover,
-                        errorWidget: (context, url, error) {
-                          return const Image(
-                            image: AssetImage('assets/no_image.png'),
-                            fit: BoxFit.cover,
-                            height: 256,
-                          );
-                        },
-                        progressIndicatorBuilder: (context, url, progress) {
-                          return const Center(child: CircularProgressIndicator());
-                        },
-                      ),
-                      const Divider(thickness: 1, height: 32,),
-                      Html(data: widget._newsData.content),
-                    ],
+            leading: BackButton(
+              onPressed: toBack,
+              color: appColors[3],
+            )),
+        body: SingleChildScrollView(
+          clipBehavior: Clip.none,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                Text(
+                  widget._newsData.title,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                CachedNetworkImage(
+                  height: 256,
+                  imageUrl: widget._newsData.featured_image,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) {
+                    return const Image(
+                      image: AssetImage('assets/no_image.png'),
+                      fit: BoxFit.cover,
+                      height: 256,
+                    );
+                  },
+                  progressIndicatorBuilder: (context, url, progress) {
+                    return const Center(child: CircularProgressIndicator());
+                  },
+                ),
+                const Divider(
+                  thickness: 1,
+                  height: 32,
+                ),
+                Html(data: widget._newsData.content, shrinkWrap: true,),
+                  ],
                 ),
               ),
             ),
           ),
         ),
-      )
-    );
+      ),
+    ));
   }
 }

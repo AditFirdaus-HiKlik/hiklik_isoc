@@ -30,7 +30,7 @@ class _HomeLocationsState extends State<HomeLocations> {
       child: SingleChildScrollView(
         clipBehavior: Clip.none,
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,

@@ -29,12 +29,25 @@ FirebaseFirestore db = FirebaseFirestore.instance;
     return users;
   }
 
+   Future<List<StreamData>> getStreams() async {
+    List<StreamData> streams = [];
+
+    QuerySnapshot<Map<String, dynamic>> productRef;
+      
+    productRef = await db.collection("streaming").get();
+
+    for (var doc in productRef.docs) {
+      streams.add(StreamData.fromJson(doc.data()));
+    }
+
+    return streams;
+  }
+
    Future<List<NewsData>> getNews({String category = ""}) async {
     List<NewsData> news = [];
 
     try {
-      final response = await http.get(Uri.parse(
-          'http://hiklik-sports.herokuapp.com/api/articles?category=$category'));
+      final response = await http.get(Uri.parse('http://hiklik-sports.herokuapp.com/api/articles?category=$category'));
 
       String body = response.body;
       
@@ -71,7 +84,7 @@ FirebaseFirestore db = FirebaseFirestore.instance;
     return news;
   }
 
-   Future<List<LocationData>> getLocations({String category = ""}) async {
+  Future<List<LocationData>> getLocations({String category = ""}) async {
     List<LocationData> news = [];
 
     try {

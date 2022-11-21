@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hiklik_sports/Pages/Auth/RecoveryPage.dart';
@@ -8,7 +12,6 @@ import 'package:hiklik_sports/config.dart';
 import 'package:hiklik_sports/sports_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -27,6 +30,10 @@ class _SignInPageState extends State<SignInPage> {
   final TextEditingController _textController2 = TextEditingController();
 
   void toSignUpPage() {
+    if (_submitting) return;
+
+    log("To Sign Up", name: "LoginPage");
+
     Navigator.of(context).push(
       PageTransition(
         childCurrent: widget,
@@ -40,6 +47,10 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   Future trySignIn() async {
+    if (_submitting) return;
+
+    log("Login Started", name: "LoginPage");
+
     if (_key.currentState!.validate()) {
       setState(() {
         _submitting = true;
@@ -50,7 +61,7 @@ class _SignInPageState extends State<SignInPage> {
 
       try {
         final credential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
@@ -61,7 +72,6 @@ class _SignInPageState extends State<SignInPage> {
 
         if (credential.user?.emailVerified == true) {
           toHomePage();
-
         } else {
           scaffoldMessage(context, "Verify your email");
 
@@ -71,6 +81,8 @@ class _SignInPageState extends State<SignInPage> {
         errorMessage = e.message!;
 
         scaffoldMessage(context, e.message!);
+
+        log("Login Failed", name: "LoginPage");
 
         setState(() {
           _submitting = false;
@@ -203,7 +215,8 @@ class _SignInPageState extends State<SignInPage> {
                                 color: Colors.white,
                               ),
                             )
-                          : Text(AppLocalizations.of(context)!.signin_button_signin),
+                          : Text(AppLocalizations.of(context)!
+                              .signin_button_signin),
                     ),
                     const SizedBox(
                       height: 16,
@@ -218,7 +231,8 @@ class _SignInPageState extends State<SignInPage> {
                           borderRadius: BorderRadius.all(Radius.circular(32)),
                         ),
                       ),
-                      child: Text(AppLocalizations.of(context)!.signin_button_createaccount),
+                      child: Text(AppLocalizations.of(context)!
+                          .signin_button_createaccount),
                     ),
                     if (errorMessage != "")
                       Center(

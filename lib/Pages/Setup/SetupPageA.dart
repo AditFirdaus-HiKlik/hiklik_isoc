@@ -186,6 +186,7 @@ class _SetupPageAState extends State<SetupPageA> {
                         if (value == null) {
                           return 'Please select list.';
                         }
+                        return null;
                       },
                       onChanged: (value) {
                         UserDataController.textController5.text =
@@ -235,6 +236,7 @@ class _SetupPageAState extends State<SetupPageA> {
                         if (value == null) {
                           return 'Please select list.';
                         }
+                        return null;
                       },
                       onChanged: (value) {
                         UserDataController.textController6.text =
