@@ -4,11 +4,12 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/Pages/Auth/RecoveryPage.dart';
-import 'package:hiklik_sports/Pages/Auth/SignUpPage.dart';
-import 'package:hiklik_sports/Pages/Auth/VerificationPage.dart';
 import 'package:hiklik_sports/Pages/Auth/auth_widget.dart';
-import 'package:hiklik_sports/config.dart';
+import 'package:hiklik_sports/app/app_config.dart';
+import 'package:hiklik_sports/pages/auth/recovery_page.dart';
+import 'package:hiklik_sports/pages/auth/sign_up_page.dart';
+import 'package:hiklik_sports/pages/auth/verification_page.dart';
+import 'package:hiklik_sports/services/auth.dart';
 import 'package:hiklik_sports/sports_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,15 +25,72 @@ class _SignInPageState extends State<SignInPage> {
   final _key = GlobalKey<FormState>();
 
   bool _submitting = false;
-  String errorMessage = "";
 
   final TextEditingController _textController1 = TextEditingController();
   final TextEditingController _textController2 = TextEditingController();
 
+  Future trySignIn() async {
+    if (_submitting) return;
+
+    if (_key.currentState!.validate()) {
+      AppAuth.errorMessage = "";
+
+      log("SignIn: Started", name: "sign_in_page.dart");
+
+      setState(() {
+        _submitting = true;
+      });
+
+      final String email = _textController1.text;
+      final String password = _textController2.text;
+
+      try {
+        final userCredentials = await AppAuth.trySignIn(email, password);
+        final user = userCredentials!.user;
+
+        if (!user!.emailVerified) {
+          toVerificationPage();
+        }
+
+        setState(() {
+          _submitting = false;
+        });
+      } on FirebaseAuthException catch (e) {
+        AppAuth.errorMessage = e.message!;
+
+        scaffoldMessage(context, e.message!);
+
+        log("SignIn Failed with error: ${AppAuth.errorMessage}",
+            name: "sign_in_page.dart");
+
+        setState(() {
+          _submitting = false;
+        });
+      }
+
+      log("SignIn: Ended", name: "sign_in_page.dart");
+    }
+  }
+
+  void toVerificationPage() {
+    log("Navigate To: VerificationPage", name: "sign_in_page.dart");
+
+    Navigator.of(context).push(
+      PageTransition(
+        childCurrent: widget,
+        child: const VerificationPage(),
+        type: PageTransitionType.topToBottomJoined,
+        curve: Curves.easeInOutQuart,
+        duration: const Duration(milliseconds: 400),
+        reverseDuration: const Duration(milliseconds: 400),
+      ),
+    );
+  }
+
   void toSignUpPage() {
     if (_submitting) return;
 
-    log("To Sign Up", name: "LoginPage");
+    log("Navigate To: SignUpPage", name: "sign_in_page.dart");
 
     Navigator.of(context).push(
       PageTransition(
@@ -46,63 +104,11 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  Future trySignIn() async {
+  Future toRecoveryPage() async {
     if (_submitting) return;
 
-    log("Login Started", name: "LoginPage");
+    log("Navigate To: RecoveryPage", name: "sign_in_page.dart");
 
-    if (_key.currentState!.validate()) {
-      setState(() {
-        _submitting = true;
-      });
-
-      final String email = _textController1.text;
-      final String password = _textController2.text;
-
-      try {
-        final credential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-
-        setState(() {
-          _submitting = false;
-        });
-
-        if (credential.user?.emailVerified == true) {
-          toHomePage();
-        } else {
-          scaffoldMessage(context, "Verify your email");
-
-          toVerificationPage();
-        }
-      } on FirebaseAuthException catch (e) {
-        errorMessage = e.message!;
-
-        scaffoldMessage(context, e.message!);
-
-        log("Login Failed", name: "LoginPage");
-
-        setState(() {
-          _submitting = false;
-        });
-      }
-    }
-  }
-
-  void toVerificationPage() {
-    Navigator.of(context).push(PageTransition(
-      type: PageTransitionType.topToBottomJoined,
-      curve: Curves.easeInOutQuart,
-      childCurrent: widget,
-      child: const VerificationPage(),
-      duration: const Duration(milliseconds: 400),
-      reverseDuration: const Duration(milliseconds: 400),
-    ));
-  }
-
-  void toRecoveryPage() {
     Navigator.of(context).push(
       PageTransition(
         childCurrent: widget,
@@ -113,18 +119,6 @@ class _SignInPageState extends State<SignInPage> {
         reverseDuration: const Duration(milliseconds: 400),
       ),
     );
-  }
-
-  void toHomePage() {
-    // Navigator.of(context).push(PageTransition(
-    //     type: PageTransitionType.topToBottomJoined,
-    //     curve: Curves.easeOutExpo,
-    //     childCurrent: widget,
-    //     child: const HomePage(),
-    //     duration: const Duration(milliseconds: 400),
-    //     reverseDuration: const Duration(milliseconds: 400),
-    //   )
-    // );
   }
 
   @override
@@ -234,7 +228,7 @@ class _SignInPageState extends State<SignInPage> {
                       child: Text(AppLocalizations.of(context)!
                           .signin_button_createaccount),
                     ),
-                    if (errorMessage != "")
+                    if (AppAuth.errorMessage != "")
                       Center(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -250,7 +244,7 @@ class _SignInPageState extends State<SignInPage> {
                               thickness: 1,
                             ),
                             Text(
-                              errorMessage,
+                              AppAuth.errorMessage,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                   color: Colors.red,

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 import 'dart:io';
 
@@ -7,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:hiklik_sports/Classes/user.dart';
 import 'package:hiklik_sports/Pages/Auth/auth_widget.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:hiklik_sports/config.dart';
+import 'package:hiklik_sports/app/app_config.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

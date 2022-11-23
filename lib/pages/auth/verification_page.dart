@@ -1,9 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/Pages/Setup/SetupPageA.dart';
-import 'package:hiklik_sports/config.dart';
+import 'package:hiklik_sports/Pages/setup/SetupPageA.dart';
+import 'package:hiklik_sports/app/app_config.dart';
 import 'package:hiklik_sports/sports_widget.dart';
 
 class VerificationPage extends StatefulWidget {
@@ -11,7 +13,6 @@ class VerificationPage extends StatefulWidget {
 
   static Future sendLink(BuildContext context) async {
     await FirebaseAuth.instance.currentUser!.sendEmailVerification();
-    // ignore: use_build_context_synchronously
     scaffoldMessage(context, "Verification link has been sent");
   }
 
@@ -144,8 +145,10 @@ class _VerificationPageState extends State<VerificationPage> {
     await user.reload();
     if (user.emailVerified) {
       timer.cancel();
-      Navigator.of(context)
-          .pushAndRemoveUntil(MaterialPageRoute(builder: ((context) => const SetupPageA())), ModalRoute.withName('/AuthTree'));
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: ((context) => const SetupPageA())),
+        ModalRoute.withName('/'),
+      );
     }
   }
 }

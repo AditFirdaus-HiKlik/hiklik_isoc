@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,8 +7,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:hiklik_sports/Classes/user.dart';
 import 'package:hiklik_sports/Pages/Auth/auth_widget.dart';
-import 'package:hiklik_sports/Pages/Setup/setup_widget.dart';
-import 'package:hiklik_sports/config.dart';
+import 'package:hiklik_sports/Pages/setup/setup_widget.dart';
+import 'package:hiklik_sports/app/app_config.dart';
 import 'package:hiklik_sports/sports_widget.dart';
 import 'package:page_transition/page_transition.dart';
 

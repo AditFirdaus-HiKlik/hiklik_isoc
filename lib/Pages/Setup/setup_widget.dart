@@ -1,10 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:hiklik_sports/Pages/Setup/SetupPageA.dart';
-import 'package:hiklik_sports/Pages/Setup/SetupPageB.dart';
-import 'package:hiklik_sports/Pages/Setup/SetupPageC.dart';
+import 'package:hiklik_sports/Pages/setup/SetupPageA.dart';
+import 'package:hiklik_sports/Pages/setup/SetupPageB.dart';
+import 'package:hiklik_sports/Pages/setup/SetupPageC.dart';
 
 const List<Widget> setupPages = [
   SetupPageA(),

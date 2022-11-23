@@ -5,7 +5,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:hiklik_sports/Classes/content.dart';
 import 'package:hiklik_sports/Classes/user.dart';
-import 'package:hiklik_sports/Pages/MembersPage.dart';
+import 'package:hiklik_sports/pages/members_page.dart';
 import 'package:hiklik_sports/sports_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -47,7 +47,6 @@ class _HomeMembersState extends State<HomeMembers> {
       query = query.where("type_role", isEqualTo: valueRole);
     }
 
-    QuerySnapshot<Map<String, dynamic>> snapshots = await query.get();
 
     return query.get();
   }

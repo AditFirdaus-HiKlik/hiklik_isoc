@@ -167,12 +167,12 @@ class UserData {
 
   static DocumentReference<UserData> Converter(String uid) {
     return FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .withConverter<UserData>(
-          fromFirestore: (snapshot, _) => UserData.fromJson(snapshot.data()!),
-          toFirestore: (user, _) => user.toJson(),
-        );
+      .collection('users')
+      .doc(uid)
+      .withConverter<UserData>(
+        fromFirestore: (snapshot, _) => UserData.fromJson(snapshot.data()!),
+        toFirestore: (user, _) => user.toJson(),
+    );
   }
 
   Future<bool> isStreamPurchased() async {

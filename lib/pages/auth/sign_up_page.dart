@@ -1,11 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/Pages/Auth/VerificationPage.dart';
 import 'package:hiklik_sports/Pages/Auth/auth_widget.dart';
-import 'package:hiklik_sports/config.dart';
+import 'package:hiklik_sports/app/app_config.dart';
+import 'package:hiklik_sports/pages/auth/verification_page.dart';
+import 'package:hiklik_sports/services/auth.dart';
 import 'package:hiklik_sports/sports_widget.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -18,13 +23,14 @@ class _SignUpPageState extends State<SignUpPage> {
   final _key = GlobalKey<FormState>();
 
   bool _submitting = false;
-  String errorMessage = "";
 
   final TextEditingController _textController1 = TextEditingController();
   final TextEditingController _textController2 = TextEditingController();
   final TextEditingController _textController3 = TextEditingController();
 
   void toVerificationPage() {
+    log("Navigate To: VerificationPage", name: "sign_up_page.dart");
+
     Navigator.of(context).push(
       PageTransition(
         childCurrent: widget,
@@ -35,11 +41,16 @@ class _SignUpPageState extends State<SignUpPage> {
         reverseDuration: const Duration(milliseconds: 400),
       ),
     );
-    // Navigator.pop(context);
   }
 
   Future trySignUp() async {
+    if (_submitting) return;
+
     if (_key.currentState!.validate()) {
+      AppAuth.errorMessage = "";
+
+      log("SignUp: Started", name: "sign_up_page.dart");
+
       setState(() {
         _submitting = true;
       });
@@ -48,31 +59,33 @@ class _SignUpPageState extends State<SignUpPage> {
       final String password = _textController2.text;
 
       try {
-        final credential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
+        final userCredential = await AppAuth.trySignUp(email, password);
+        final user = userCredential.user;
 
-        scaffoldMessage(context, "Sign Up Successfull");
+        setState(() {
+          _submitting = false;
+        });
 
-        _submitting = false;
-
-        VerificationPage.sendLink(context);
-        toVerificationPage();
+        if (!user!.emailVerified) toVerificationPage();
       } on FirebaseAuthException catch (e) {
-        errorMessage = e.message!;
+        AppAuth.errorMessage = e.message!;
 
         scaffoldMessage(context, e.message!);
+
+        log("SignUp Failed with error: ${AppAuth.errorMessage}",
+            name: "sign_in_page.dart");
 
         setState(() {
           _submitting = false;
         });
       }
+
+      log("SignUp: Ended", name: "sign_up_page.dart");
     }
   }
 
   void toBack() {
+    log("Navigate To: Back()", name: "recovery_page.dart");
     Navigator.of(context).pop();
   }
 
@@ -172,7 +185,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 color: Colors.white,
                               ),
                             )
-                          : Text(AppLocalizations.of(context)!.signup_button_signup),
+                          : Text(AppLocalizations.of(context)!
+                              .signup_button_signup),
                     ),
                     const SizedBox(
                       height: 16,
@@ -187,9 +201,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           borderRadius: BorderRadius.all(Radius.circular(32)),
                         ),
                       ),
-                      child: Text(AppLocalizations.of(context)!.signup_button_back),
+                      child: Text(
+                          AppLocalizations.of(context)!.signup_button_back),
                     ),
-                    if (errorMessage != "")
+                    if (AppAuth.errorMessage != "")
                       Center(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -205,7 +220,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               thickness: 1,
                             ),
                             Text(
-                              errorMessage,
+                              AppAuth.errorMessage,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                   color: Colors.red,

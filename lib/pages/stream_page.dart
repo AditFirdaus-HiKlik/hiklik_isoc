@@ -1,13 +1,12 @@
+// ignore_for_file: curly_braces_in_flow_control_structures, use_build_context_synchronously
+
 import 'dart:convert';
 import 'dart:developer';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:hiklik_sports/Classes/content.dart';
-import 'package:hiklik_sports/config.dart';
+import 'package:hiklik_sports/app/app_config.dart';
 import 'package:hiklik_sports/sports_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:video_player/video_player.dart';

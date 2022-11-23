@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hiklik_sports/Pages/Auth/auth_widget.dart';
-import 'package:hiklik_sports/config.dart';
+import 'package:hiklik_sports/app/app_config.dart';
 import 'package:hiklik_sports/sports_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -30,7 +34,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
       final String email = _textController1.text;
 
       try {
-        final credential = await FirebaseAuth.instance.sendPasswordResetEmail(
+        await FirebaseAuth.instance.sendPasswordResetEmail(
           email: email,
         );
 
@@ -54,6 +58,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
   }
 
   void toBack() {
+    log("Navigate To: Back()", name: "recovery_page.dart");
     Navigator.of(context).pop();
   }
 

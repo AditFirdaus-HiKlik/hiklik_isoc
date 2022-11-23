@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hiklik_sports/l10n/l10n.dart';
-import 'package:hiklik_sports/sports_widget.dart';
+import 'package:hiklik_sports/services/sharedPreferences.dart';
 
 class LocaleProvider extends ChangeNotifier {
   Locale? _locale = L10n.all.first;
 
   Locale? get locale {
-    
     if (sharedPreferences!.containsKey("app_lang")) {
       String langKey = sharedPreferences!.getString("app_lang")!;
 

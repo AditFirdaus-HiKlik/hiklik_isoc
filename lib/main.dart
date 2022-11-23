@@ -1,37 +1,42 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:hiklik_sports/AuthTree.dart';
-import 'package:hiklik_sports/LocaleProvider.dart';
-import 'package:hiklik_sports/Pages/PaymentService.dart';
+import 'package:hiklik_sports/pages/auth/sign_in_page.dart';
+import 'package:hiklik_sports/pages/auth/sign_up_page.dart';
+import 'package:hiklik_sports/pages/auth/verification_page.dart';
+import 'package:hiklik_sports/pages/auth_tree.dart';
+import 'package:hiklik_sports/locale_provider.dart';
 import 'package:hiklik_sports/firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hiklik_sports/l10n/l10n.dart';
-import 'package:hiklik_sports/sports_widget.dart';
+import 'package:hiklik_sports/services/sharedPreferences.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-
+  log("Starting Application...", name: "main.dart");
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
+  log("Create Splash...", name: "main.dart");
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+  log("Initialize Firebase...", name: "main.dart");
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await PaymentService.instance.initConnection();
+  log("Initialize SharedPreferences...", name: "main.dart");
+  await initializeSharedPreferences();
+  
+  // log("Initialize PaymentService...", name: "main.dart");
+  // await PaymentService.instance.initConnection();
 
-  sharedPreferences = await SharedPreferences.getInstance();
-
+  log("Running App...", name: "main.dart");
   runApp(const MyApp());
 
-  await Future.delayed(const Duration(seconds: 1));
-
+  log("Removing Splash...", name: "main.dart");
   FlutterNativeSplash.remove();
 }
 
@@ -55,9 +60,15 @@ class MyApp extends StatelessWidget {
           locale: provider.locale,
           supportedLocales: L10n.all,
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.blueGrey,
           ),
-          home: const AuthTree(),
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const AuthTree(),
+            '/signIn': (context) => const SignInPage(),
+            '/signUp': (context) => const SignUpPage(),
+            '/verification': (context) => const VerificationPage(),
+          },
         );
       },
     );

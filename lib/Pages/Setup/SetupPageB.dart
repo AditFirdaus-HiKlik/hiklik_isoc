@@ -1,8 +1,10 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:hiklik_sports/Classes/user.dart';
 import 'package:hiklik_sports/Pages/Auth/auth_widget.dart';
-import 'package:hiklik_sports/Pages/Setup/setup_widget.dart';
-import 'package:hiklik_sports/config.dart';
+import 'package:hiklik_sports/Pages/setup/setup_widget.dart';
+import 'package:hiklik_sports/app/app_config.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SetupPageB extends StatefulWidget {

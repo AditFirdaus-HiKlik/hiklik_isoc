@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/config.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-SharedPreferences? sharedPreferences;
+import 'package:hiklik_sports/app/app_config.dart';
 
 TextStyle textH1 = TextStyle(
   fontSize: 24,

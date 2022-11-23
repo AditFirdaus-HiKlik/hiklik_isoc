@@ -5,8 +5,8 @@ import 'dart:io';
 
 import 'package:hiklik_sports/Classes/user.dart';
 import 'package:ntp/ntp.dart';
-import 'package:hiklik_sports/config.dart';
-import 'package:hiklik_sports/contents-api.dart';
+import 'package:hiklik_sports/app/app_config.dart';
+import 'package:hiklik_sports/contents_api.dart';
 
 List<NewsData> cachedNews = [];
 List<EventData> cachedEvent = [];
