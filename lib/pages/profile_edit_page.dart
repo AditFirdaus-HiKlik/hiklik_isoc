@@ -6,12 +6,14 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/Classes/user.dart';
-import 'package:hiklik_sports/Pages/Auth/auth_widget.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:isoc/Classes/user.dart';
+import 'package:isoc/Pages/Auth/auth_widget.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:hiklik_sports/app/app_config.dart';
+import 'package:isoc/app/app_config.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:path/path.dart' as p;
 
 class ProfileEditPage extends StatefulWidget {
   const ProfileEditPage({super.key});
@@ -44,14 +46,12 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   FileImage? fileImage;
 
   Future pickImage() async {
-    final pick = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pick = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      if (pick != null) {
-        file = File(pick.path);
-        fileImage = FileImage(file!);
-      }
-    });
+    file = File(pick!.path);
+
+    setState(() {});
   }
 
   Future createTemp() async {
@@ -93,6 +93,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   }
 
   Future trySaveProfile() async {
+    log("Save Profile: Started", name: "sign_in_page.dart");
+
     setState(() {
       isSaving = true;
     });
@@ -109,6 +111,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       isSaving = false;
     });
 
+    log("Save Profile: Ended", name: "sign_in_page.dart");
+
     Navigator.of(context).pop();
   }
 
@@ -119,10 +123,13 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   }
 
   Future<String> uploadImage() async {
+    log("Uploading Avatar: Ended", name: "sign_in_page.dart");
+
+    FirebaseStorage storage = FirebaseStorage.instance;
+
     String downloadUrl = tempUserData.user_avatar.url;
 
     if (file != null) {
-      FirebaseStorage storage = FirebaseStorage.instance;
       Reference ref = storage.ref().child('user/profile/$uid/avatar');
       UploadTask uploadTask = ref.putFile(file!);
 
@@ -131,6 +138,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       }).catchError((onError) {
         log(onError);
       });
+
+      log("Uploading Avatar: Ended", name: "sign_in_page.dart");
     }
 
     return downloadUrl;
@@ -174,7 +183,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                       ? CachedNetworkImage(
                                           imageUrl:
                                               currentUserData.user_avatar.url,
-                                          fit: BoxFit.contain,
+                                          fit: BoxFit.cover,
                                           errorWidget: (context, url, error) {
                                             return const Image(
                                                 image: AssetImage(

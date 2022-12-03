@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/app/app_config.dart';
+import 'package:isoc/app/app_config.dart';
 
 class AuthTextFieldDecoration extends InputDecoration {
   AuthTextFieldDecoration(String label)

@@ -2,11 +2,11 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/Classes/user.dart';
-import 'package:hiklik_sports/Pages/Auth/auth_widget.dart';
-import 'package:hiklik_sports/app/app_config.dart';
-import 'package:hiklik_sports/contents_api.dart';
-import 'package:hiklik_sports/pages/auth_tree.dart';
+import 'package:isoc/Classes/user.dart';
+import 'package:isoc/Pages/Auth/auth_widget.dart';
+import 'package:isoc/app/app_config.dart';
+import 'package:isoc/contents_api.dart';
+import 'package:isoc/pages/auth_tree.dart';
 
 class SetupPageC extends StatefulWidget {
   const SetupPageC({super.key});

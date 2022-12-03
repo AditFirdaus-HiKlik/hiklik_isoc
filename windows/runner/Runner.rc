@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "hiklik_sports" "\0"
+            VALUE "FileDescription", "isoc" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "hiklik_sports" "\0"
+            VALUE "InternalName", "isoc" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "hiklik_sports.exe" "\0"
-            VALUE "ProductName", "hiklik_sports" "\0"
+            VALUE "OriginalFilename", "isoc.exe" "\0"
+            VALUE "ProductName", "isoc" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

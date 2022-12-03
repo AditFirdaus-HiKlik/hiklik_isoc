@@ -9,16 +9,15 @@ import 'package:expandable/expandable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/Classes/user.dart';
-import 'package:hiklik_sports/Pages/Auth/auth_widget.dart';
-import 'package:hiklik_sports/app/app_config.dart';
-import 'package:hiklik_sports/pages/profile_edit_page.dart';
-import 'package:hiklik_sports/sports_widget.dart';
+import 'package:isoc/Classes/user.dart';
+import 'package:isoc/Pages/Auth/auth_widget.dart';
+import 'package:isoc/app/app_config.dart';
+import 'package:isoc/pages/profile_edit_page.dart';
+import 'package:isoc/sports_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -216,7 +215,9 @@ class ProfilePage extends StatefulWidget {
     switch (result) {
       case "delete":
         if (index != -1) {
-          FirebaseStorage.instance.refFromURL(currentUserData.user_gallery[index].url).delete();
+          FirebaseStorage.instance
+              .refFromURL(currentUserData.user_gallery[index].url)
+              .delete();
           currentUserData.user_gallery.removeAt(index);
         }
         break;
@@ -277,7 +278,9 @@ class ProfilePage extends StatefulWidget {
                       Center(
                         child: CircularProgressIndicator(),
                       ),
-                      SizedBox(height: 8,),
+                      SizedBox(
+                        height: 8,
+                      ),
                       Text("Uploading..."),
                     ],
                   ),
@@ -403,8 +406,17 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             );
                           } else {
-                            return const Center(
-                              child: CircularProgressIndicator(),
+                            return Card(
+                              elevation: 8,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(32.0),
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
                             );
                           }
                         }),
@@ -679,10 +691,14 @@ class ProfileAchivementListItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           IconButton(
-              onPressed: () {
-                ProfilePage.editAchivementData(context, index);
-              },
-              icon: const Icon(Icons.edit, size: 16,),),
+            onPressed: () {
+              ProfilePage.editAchivementData(context, index);
+            },
+            icon: const Icon(
+              Icons.edit,
+              size: 16,
+            ),
+          ),
           Card(
             elevation: 4,
             child: Padding(

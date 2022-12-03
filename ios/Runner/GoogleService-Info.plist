@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.hiklik.sports</string>
+	<string>com.hiklik.isoc</string>
 	<key>PROJECT_ID</key>
 	<string>hiklik-sports-76bdd</string>
 	<key>STORAGE_BUCKET</key>

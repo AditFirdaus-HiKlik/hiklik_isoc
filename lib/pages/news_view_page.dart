@@ -2,8 +2,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:hiklik_sports/Classes/content.dart';
-import 'package:hiklik_sports/app/app_config.dart';
+import 'package:isoc/Classes/content.dart';
+import 'package:isoc/app/app_config.dart';
 
 class NewsViewPage extends StatefulWidget {
   final NewsData _newsData;

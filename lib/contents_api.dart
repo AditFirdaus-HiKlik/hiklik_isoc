@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hiklik_sports/Classes/content.dart';
-import 'package:hiklik_sports/Classes/user.dart';
+import 'package:isoc/Classes/content.dart';
+import 'package:isoc/Classes/user.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';

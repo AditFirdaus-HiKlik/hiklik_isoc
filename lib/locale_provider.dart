@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/l10n/l10n.dart';
-import 'package:hiklik_sports/services/sharedPreferences.dart';
+import 'package:isoc/l10n/l10n.dart';
+import 'package:isoc/services/shared_preferences.dart';
 
 class LocaleProvider extends ChangeNotifier {
   Locale? _locale = L10n.all.first;

@@ -1,16 +1,17 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/Classes/content.dart';
-import 'package:hiklik_sports/Pages/home/home_events.dart';
-import 'package:hiklik_sports/Pages/home/home_locations.dart';
-import 'package:hiklik_sports/Pages/home/home_members.dart';
-import 'package:hiklik_sports/Pages/home/home_news.dart';
-import 'package:hiklik_sports/Pages/home/home_stream.dart';
-import 'package:hiklik_sports/Pages/profile_page.dart';
-import 'package:hiklik_sports/Pages/settings_page.dart';
-import 'package:hiklik_sports/app/app_config.dart';
+import 'package:isoc/Classes/content.dart';
+import 'package:isoc/Pages/home/home_events.dart';
+import 'package:isoc/Pages/home/home_locations.dart';
+import 'package:isoc/Pages/home/home_members.dart';
+import 'package:isoc/Pages/home/home_news.dart';
+import 'package:isoc/Pages/home/home_stream.dart';
+import 'package:isoc/Pages/profile_page.dart';
+import 'package:isoc/Pages/settings_page.dart';
+import 'package:isoc/app/app_config.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -58,6 +59,7 @@ class _HomePageState extends State<HomePage> {
     await fetchAll();
 
     setState(() {
+      
     });
   }
 
@@ -136,7 +138,7 @@ class _HomePageState extends State<HomePage> {
         body: SafeArea(
           child: TabBarView(
             clipBehavior: Clip.none,
-            children: const [
+            children: [
               HomeNews(),
               HomeEvents(),
               HomeMembers(),

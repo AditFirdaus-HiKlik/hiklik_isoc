@@ -3,15 +3,15 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:hiklik_sports/pages/auth/sign_in_page.dart';
-import 'package:hiklik_sports/pages/auth/sign_up_page.dart';
-import 'package:hiklik_sports/pages/auth/verification_page.dart';
-import 'package:hiklik_sports/pages/auth_tree.dart';
-import 'package:hiklik_sports/locale_provider.dart';
-import 'package:hiklik_sports/firebase_options.dart';
+import 'package:isoc/pages/auth/sign_in_page.dart';
+import 'package:isoc/pages/auth/sign_up_page.dart';
+import 'package:isoc/pages/auth_tree.dart';
+import 'package:isoc/pages/auth/verification_page.dart';
+import 'package:isoc/locale_provider.dart';
+import 'package:isoc/firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:hiklik_sports/l10n/l10n.dart';
-import 'package:hiklik_sports/services/sharedPreferences.dart';
+import 'package:isoc/l10n/l10n.dart';
+import 'package:isoc/services/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -41,6 +41,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  
   const MyApp({super.key});
 
   @override
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         final provider = Provider.of<LocaleProvider>(context);
         return MaterialApp(
-          title: 'HiKlik Sports',
+          title: 'Indonesia Sports and Olympic Community',
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,

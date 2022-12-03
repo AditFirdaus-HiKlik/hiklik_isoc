@@ -3,13 +3,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
-import 'package:hiklik_sports/Classes/content.dart';
-import 'package:hiklik_sports/Classes/iap.dart';
-import 'package:hiklik_sports/Pages/payment_service.dart';
-import 'package:hiklik_sports/Pages/stream_page.dart';
-import 'package:hiklik_sports/app/app_config.dart';
-import 'package:hiklik_sports/sports_widget.dart';
+import 'package:isoc/Classes/content.dart';
+import 'package:isoc/Pages/stream_page.dart';
+import 'package:isoc/sports_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -24,60 +20,16 @@ class _HomeStreamState extends State<HomeStream> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  IAPItem? streamingSubscription;
-
-  static bool purchased = false;
-
-  static bool loading = false;
-
-  static bool connectedToInternet = false;
-
-  Future toPayment() async {
-    log("Buying");
-    setState(() {
-      purchased = true;
-    });
-
-    final result =
-        await PaymentService.instance.buyProduct(streamingSubscription!);
-
-    log("result: $result");
-
-    log("Subscription Complete");
-  }
+  static bool enableFeature = false;
 
   @override
   void initState() {
-    loading = false;
-    connectedToInternet = true;
-    PaymentService.instance.addToProStatusChangedListeners(subscriptionChanged);
-    fetchSubscription();
     super.initState();
   }
 
   @override
   void dispose() {
-    PaymentService.instance
-        .removeFromProStatusChangedListeners(subscriptionChanged);
     super.dispose();
-  }
-
-  void subscriptionChanged() async {
-    fetchSubscription();
-    scaffoldMessage(context, streamingSubscription.toString());
-  }
-
-  Future fetchSubscription() async {
-    setState(() {
-      loading = true;
-    });
-    log("Loading");
-    streamingSubscription = await getItem("sports_19000_streaming");
-    // purchased = PaymentService.instance.isProUser;
-    log("Loading Finished");
-    setState(() {
-      loading = false;
-    });
   }
 
   @override
@@ -88,7 +40,7 @@ class _HomeStreamState extends State<HomeStream> {
       controller: _refreshController,
       onRefresh: _onRefresh,
       onLoading: _onLoading,
-      child: !loading
+      child: enableFeature
           ? SingleChildScrollView(
               clipBehavior: Clip.none,
               child: Padding(
@@ -105,57 +57,20 @@ class _HomeStreamState extends State<HomeStream> {
                       const Divider(
                         thickness: 1,
                       ),
-                      purchased
-                          ? const StreamCardList()
-                          : Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const SizedBox(
-                                    height: 48,
-                                  ),
-                                  Icon(
-                                    Icons.warning_rounded,
-                                    color: appColors[3],
-                                  ),
-                                  Text(
-                                    "You must subscribe to watch our content",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: appColors[3],
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  connectedToInternet
-                                      ? ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: appColors[3],
-                                            minimumSize: const Size(128, 32),
-                                          ),
-                                          onPressed: toPayment,
-                                          child: Text(streamingSubscription!
-                                              .localizedPrice!))
-                                      : const Text(
-                                          "You're not connected to the Server"),
-                                ],
-                              ),
-                            ),
-                    ]),
-              ))
+                      const StreamCardList()
+                    ]
+                  ),
+                )
+              )
           : Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircularProgressIndicator(
-                    color: appColors[3],
-                  ),
+                  const Icon(Icons.construction, size: 48,),
                   const SizedBox(
                     height: 16,
                   ),
-                  const Text("Verifying Purchases..."),
+                  Text("Coming Soon!", style: textH2,),
                 ],
               ),
             ),

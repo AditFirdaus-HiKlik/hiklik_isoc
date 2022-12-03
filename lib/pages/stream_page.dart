@@ -5,9 +5,9 @@ import 'dart:developer';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/Classes/content.dart';
-import 'package:hiklik_sports/app/app_config.dart';
-import 'package:hiklik_sports/sports_widget.dart';
+import 'package:isoc/Classes/content.dart';
+import 'package:isoc/app/app_config.dart';
+import 'package:isoc/sports_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:video_player/video_player.dart';
 

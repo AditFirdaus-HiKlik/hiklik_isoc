@@ -4,13 +4,13 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/Pages/Auth/auth_widget.dart';
-import 'package:hiklik_sports/app/app_config.dart';
-import 'package:hiklik_sports/pages/auth/recovery_page.dart';
-import 'package:hiklik_sports/pages/auth/sign_up_page.dart';
-import 'package:hiklik_sports/pages/auth/verification_page.dart';
-import 'package:hiklik_sports/services/auth.dart';
-import 'package:hiklik_sports/sports_widget.dart';
+import 'package:isoc/Pages/Auth/auth_widget.dart';
+import 'package:isoc/app/app_config.dart';
+import 'package:isoc/pages/auth/recovery_page.dart';
+import 'package:isoc/pages/auth/sign_up_page.dart';
+import 'package:isoc/pages/auth/verification_page.dart';
+import 'package:isoc/services/auth.dart';
+import 'package:isoc/sports_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

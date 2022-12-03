@@ -3,10 +3,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/app/app_config.dart';
-import 'package:hiklik_sports/l10n/l10n.dart';
-import 'package:hiklik_sports/locale_provider.dart';
-import 'package:hiklik_sports/sports_widget.dart';
+import 'package:isoc/app/app_config.dart';
+import 'package:isoc/l10n/l10n.dart';
+import 'package:isoc/locale_provider.dart';
+import 'package:isoc/sports_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

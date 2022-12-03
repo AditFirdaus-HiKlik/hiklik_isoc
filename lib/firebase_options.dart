@@ -25,7 +25,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -44,40 +47,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBtpMYgeRyS3phrqpJAsooaTSU7nFspFpA',
-    appId: '1:34648232424:web:8075842fe539b56cf9945d',
-    messagingSenderId: '34648232424',
-    projectId: 'hiklik-sports-76bdd',
-    authDomain: 'hiklik-sports-76bdd.firebaseapp.com',
-    storageBucket: 'hiklik-sports-76bdd.appspot.com',
-    measurementId: 'G-ZFQDSKB1WK',
+    apiKey: 'AIzaSyCv2sxJVWsM_-BNzwtCjGCqiApKufcK7SE',
+    appId: '1:80054763997:web:d4fe3dc4f54ce6b830f634',
+    messagingSenderId: '80054763997',
+    projectId: 'hiklik-isoc',
+    authDomain: 'hiklik-isoc.firebaseapp.com',
+    storageBucket: 'hiklik-isoc.appspot.com',
+    measurementId: 'G-MTDP3NL42D',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAxuNQT-1a1i3prLq0gzz91HLtBmB9HKZM',
-    appId: '1:34648232424:android:7a7fdcdde4428b1cf9945d',
-    messagingSenderId: '34648232424',
-    projectId: 'hiklik-sports-76bdd',
-    storageBucket: 'hiklik-sports-76bdd.appspot.com',
+    apiKey: 'AIzaSyBtd8iaWVzIzg79MKm8rWsunYa81Src4J8',
+    appId: '1:80054763997:android:8b1bb16c48f03e3d30f634',
+    messagingSenderId: '80054763997',
+    projectId: 'hiklik-isoc',
+    storageBucket: 'hiklik-isoc.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCUkTFRxXvHbqMEFWLZey22VmT4Q88EBTU',
-    appId: '1:34648232424:ios:f2be2572ff4da833f9945d',
-    messagingSenderId: '34648232424',
-    projectId: 'hiklik-sports-76bdd',
-    storageBucket: 'hiklik-sports-76bdd.appspot.com',
-    iosClientId: '34648232424-4ri5ffpge9586lpf6gssjun8jp01bika.apps.googleusercontent.com',
-    iosBundleId: 'com.hiklik.sports',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCUkTFRxXvHbqMEFWLZey22VmT4Q88EBTU',
-    appId: '1:34648232424:ios:f2be2572ff4da833f9945d',
-    messagingSenderId: '34648232424',
-    projectId: 'hiklik-sports-76bdd',
-    storageBucket: 'hiklik-sports-76bdd.appspot.com',
-    iosClientId: '34648232424-4ri5ffpge9586lpf6gssjun8jp01bika.apps.googleusercontent.com',
-    iosBundleId: 'com.hiklik.sports',
+    apiKey: 'AIzaSyCAMTojF-5HDuIM-hXREuc0inIKEJuS2Xc',
+    appId: '1:80054763997:ios:a1dfa69350b876d430f634',
+    messagingSenderId: '80054763997',
+    projectId: 'hiklik-isoc',
+    storageBucket: 'hiklik-isoc.appspot.com',
+    iosClientId: '80054763997-33pn89e6qku1vqovtjrfhcbnn2vf1sav.apps.googleusercontent.com',
+    iosBundleId: 'com.hiklik.isoc',
   );
 }

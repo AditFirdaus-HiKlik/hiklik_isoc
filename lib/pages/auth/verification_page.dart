@@ -4,9 +4,9 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hiklik_sports/Pages/setup/SetupPageA.dart';
-import 'package:hiklik_sports/app/app_config.dart';
-import 'package:hiklik_sports/sports_widget.dart';
+import 'package:isoc/Pages/setup/SetupPageA.dart';
+import 'package:isoc/app/app_config.dart';
+import 'package:isoc/sports_widget.dart';
 
 class VerificationPage extends StatefulWidget {
   const VerificationPage({super.key});

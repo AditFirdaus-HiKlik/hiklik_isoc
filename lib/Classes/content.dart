@@ -3,10 +3,10 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:hiklik_sports/Classes/user.dart';
+import 'package:isoc/Classes/user.dart';
 import 'package:ntp/ntp.dart';
-import 'package:hiklik_sports/app/app_config.dart';
-import 'package:hiklik_sports/contents_api.dart';
+import 'package:isoc/app/app_config.dart';
+import 'package:isoc/contents_api.dart';
 
 List<NewsData> cachedNews = [];
 List<EventData> cachedEvent = [];
@@ -79,30 +79,40 @@ class StreamData {
 }
 
 Future fetchNews() async {
+  log("Fetching News: Started...", name: "sign_in_page.dart");
   cachedNews = await getNews(category: appSportMode);
+  log("Fetching News: Ended...", name: "sign_in_page.dart");
 }
 
 Future fetchEvents() async {
+  log("Fetching Event: Started...", name: "content.dart");
   cachedEvent = await getEvents(category: appSportMode);
+  log("Fetching Event: Ended...", name: "content.dart");
 }
 
 Future fetchMembers() async {
+  log("Fetching Member: Started...", name: "content.dart");
   cachedMember = await getMembers(category: appSportMode);
+  log("Fetching Member: Ended...", name: "content.dart");
 }
 
 Future fetchLocations() async {
+  log("Fetching Location: Started...", name: "content.dart");
   cachedLocation = await getLocations(category: appSportMode);
+  log("Fetching Location: Ended...", name: "content.dart");
 }
 
 Future fetchStreams() async {
+  log("Stream: Fetching News Started...", name: "content.dart");
   cachedStream = await getStreams();
+  log("Stream: Fetching News Ended...", name: "content.dart");
 }
 
 Future fetchAll() async {
   await fetchNews();
   await fetchEvents();
   await fetchLocations();
-  await fetchStreams();
+  // await fetchStreams();
 }
 
 Future<DateTime> internetTime() async {

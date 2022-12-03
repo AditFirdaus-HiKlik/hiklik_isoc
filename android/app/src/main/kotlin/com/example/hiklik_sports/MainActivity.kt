@@ -1,4 +1,4 @@
-package com.hiklik.sports
+package com.hiklik.isoc
 
 import io.flutter.embedding.android.FlutterActivity
 

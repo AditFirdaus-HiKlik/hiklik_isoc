@@ -29,13 +29,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
-  audio_session:
-    dependency: transitive
-    description:
-      name: audio_session
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.11"
   awesome_dialog:
     dependency: "direct main"
     description:
@@ -286,20 +279,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0-alpha.6"
-  flutter_inapp_purchase:
+  flutter_image_compress:
     dependency: "direct main"
     description:
-      name: flutter_inapp_purchase
+      name: flutter_image_compress
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.3.1"
-  flutter_inappwebview:
-    dependency: "direct main"
-    description:
-      name: flutter_inappwebview
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.7.1+2"
+    version: "1.1.3"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -340,13 +326,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  flutter_svg:
-    dependency: transitive
-    description:
-      name: flutter_svg
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.6"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -357,69 +336,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_widget_from_html:
-    dependency: "direct main"
-    description:
-      name: flutter_widget_from_html
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.0+1"
-  flutter_widget_from_html_core:
-    dependency: transitive
-    description:
-      name: flutter_widget_from_html_core
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.0+1"
-  fwfh_cached_network_image:
-    dependency: transitive
-    description:
-      name: fwfh_cached_network_image
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.0+3"
-  fwfh_chewie:
-    dependency: transitive
-    description:
-      name: fwfh_chewie
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.0+3"
-  fwfh_just_audio:
-    dependency: transitive
-    description:
-      name: fwfh_just_audio
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.0"
-  fwfh_svg:
-    dependency: transitive
-    description:
-      name: fwfh_svg
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.2+1"
-  fwfh_text_style:
-    dependency: transitive
-    description:
-      name: fwfh_text_style
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.22.08+1"
-  fwfh_url_launcher:
-    dependency: transitive
-    description:
-      name: fwfh_url_launcher
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.0"
-  fwfh_webview:
-    dependency: transitive
-    description:
-      name: fwfh_webview
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.2+5"
   google_sign_in:
     dependency: "direct main"
     description:
@@ -567,27 +483,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.7.0"
-  just_audio:
-    dependency: transitive
-    description:
-      name: just_audio
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.30"
-  just_audio_platform_interface:
-    dependency: transitive
-    description:
-      name: just_audio_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.2.0"
-  just_audio_web:
-    dependency: transitive
-    description:
-      name: just_audio_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.7"
   lints:
     dependency: transitive
     description:
@@ -652,28 +547,14 @@ packages:
     source: hosted
     version: "2.0.9"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.2"
-  path_drawing:
-    dependency: transitive
-    description:
-      name: path_drawing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
-  path_parsing:
-    dependency: transitive
-    description:
-      name: path_parsing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
@@ -1069,34 +950,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.1"
-  webview_flutter:
-    dependency: "direct main"
-    description:
-      name: webview_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.8.0"
-  webview_flutter_android:
-    dependency: transitive
-    description:
-      name: webview_flutter_android
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.10.4"
-  webview_flutter_platform_interface:
-    dependency: transitive
-    description:
-      name: webview_flutter_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.9.5"
-  webview_flutter_wkwebview:
-    dependency: transitive
-    description:
-      name: webview_flutter_wkwebview
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.9.5"
   win32:
     dependency: transitive
     description:

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hiklik_sports/Classes/content.dart';
+import 'package:isoc/Classes/content.dart';
 
 User? get user => FirebaseAuth.instance.currentUser;
 String get uid => user != null ? user!.uid : "1234567890";

@@ -4,9 +4,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:hiklik_sports/Pages/setup/SetupPageA.dart';
-import 'package:hiklik_sports/Pages/setup/SetupPageB.dart';
-import 'package:hiklik_sports/Pages/setup/SetupPageC.dart';
+import 'package:isoc/Pages/setup/SetupPageA.dart';
+import 'package:isoc/Pages/setup/SetupPageB.dart';
+import 'package:isoc/Pages/setup/SetupPageC.dart';
 
 const List<Widget> setupPages = [
   SetupPageA(),
