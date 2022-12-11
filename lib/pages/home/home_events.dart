@@ -1,7 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:isoc/Classes/content.dart';
 import 'package:isoc/sports_widget.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -13,7 +13,6 @@ class HomeEvents extends StatefulWidget {
 }
 
 class _HomeEventsState extends State<HomeEvents> {
-
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -80,8 +79,8 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.parse(_eventData.date);
-    String formattedDate = DateFormat.yMMMEd().format(now);
+    DateTime? dateTime = _eventData.getDateTime();
+
     return Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       color: const Color(0xFFF5F5F5),
@@ -89,74 +88,76 @@ class EventCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              formattedDate,
-              style: const TextStyle(),
-            ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 8),
-              child: Text(
-                _eventData.title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          CachedNetworkImage(
+            height: 128,
+            imageUrl: _eventData.featured_image,
+            fit: BoxFit.cover,
+            errorWidget: (context, url, error) {
+              return const Image(
+                image: AssetImage('assets/no_image.png'),
+                fit: BoxFit.cover,
+              );
+            },
+            progressIndicatorBuilder: (context, url, progress) => Center(
+                child: CircularProgressIndicator(
+              value: progress.progress,
+            )),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (dateTime != null) Text(
+                  "${dateTime.day}-${dateTime.month}-${dateTime.year}",
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 4),
+                  child: Text(
+                    _eventData.title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                const Divider(
+                  height: 1,
+                ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 4),
+                  child: Text(
+                    _eventData.type,
+                    style: const TextStyle(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 4),
+                  child: Text(
+                    _eventData.address,
+                    style: const TextStyle(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 4),
+                  child: Text(
+                    _eventData.phone,
+                    style: const TextStyle(),
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
-                    child: Icon(
-                      Icons.location_pin,
-                      color: Colors.black,
-                      size: 16,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      _eventData.address,
-                      style: const TextStyle(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  const Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
-                    child: Icon(
-                      Icons.phone_iphone,
-                      color: Colors.black,
-                      size: 16,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      _eventData.phone,
-                      style: const TextStyle(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

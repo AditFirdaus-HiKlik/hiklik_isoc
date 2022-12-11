@@ -26,35 +26,13 @@ class _StreamPageState extends State<StreamPage> {
 
   String error = "";
 
+  String get hlsURL => widget._streamData.url;
+
   void toBack() {
     Navigator.of(context).pop();
   }
 
-  Future<String> getHLS(String id) async {
-    String url =
-        "https://playback.dacast.com/content/access?provider=universe&contentId=$id";
-    final response = await http.get(Uri.parse(url));
-
-    log(response.body);
-
-    Map<String, dynamic> map = jsonDecode(response.body);
-
-    String hls = "";
-
-    if (map.containsKey("hls")) hls = map["hls"];
-    if (map.containsKey("error")) {
-      error = map["error"];
-      hls =
-          "http://amssamples.streaming.mediaservices.windows.net/91492735-c523-432b-ba01-faba6c2206a2/AzureMediaServicesPromo.ism/manifest(format=m3u8-aapl)";
-    } else
-      error = "";
-
-    return hls;
-  }
-
   Future initializeVideo() async {
-    String hlsURL = await getHLS(widget._streamData.id);
-
     if (error != "") scaffoldMessage(context, error);
 
     log(hlsURL);
@@ -72,6 +50,8 @@ class _StreamPageState extends State<StreamPage> {
             },
           );
         });
+      }).onError((error, stackTrace) async {
+        error == error.toString();
       });
   }
 

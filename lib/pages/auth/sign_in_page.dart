@@ -55,6 +55,8 @@ class _SignInPageState extends State<SignInPage> {
         setState(() {
           _submitting = false;
         });
+
+        Navigator.of(context).pop();
       } on FirebaseAuthException catch (e) {
         AppAuth.errorMessage = e.message!;
 

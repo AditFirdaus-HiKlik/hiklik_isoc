@@ -1,0 +1,4 @@
+enum SubscriptionEntitlement {
+  notsubscribed,
+  subscribed
+}

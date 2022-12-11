@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:isoc/Classes/user.dart';
 import 'package:isoc/Pages/Auth/auth_widget.dart';
+import 'package:isoc/Pages/home/home_page.dart';
 import 'package:isoc/app/app_config.dart';
 import 'package:isoc/contents_api.dart';
 import 'package:isoc/pages/auth_tree.dart';
@@ -28,9 +29,9 @@ class _SetupPageCState extends State<SetupPageC> {
      Navigator.of(context)
       .pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: ((context) => const AuthTree())
+          builder: ((context) => const HomePage())
         ),
-        ModalRoute.withName('/AuthTree')
+        ModalRoute.withName('/HomePage')
       );
     }
   }

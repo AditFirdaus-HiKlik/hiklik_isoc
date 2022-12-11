@@ -5,8 +5,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:isoc/Classes/content.dart';
 import 'package:isoc/Pages/stream_page.dart';
+import 'package:isoc/services/entitlement.dart';
+import 'package:isoc/services/revenuecat.dart';
 import 'package:isoc/sports_widget.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeStream extends StatefulWidget {
@@ -17,10 +20,14 @@ class HomeStream extends StatefulWidget {
 }
 
 class _HomeStreamState extends State<HomeStream> {
+  // SubscriptionEntitlement get entitlement =>
+  //     Provider.of<RevenueCatProvider>(context).subscriptionEntitlement;
+
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  static bool enableFeature = false;
+  // bool get enableFeature =>
+  //     entitlement == SubscriptionEntitlement.notsubscribed;
 
   @override
   void initState() {
@@ -34,47 +41,56 @@ class _HomeStreamState extends State<HomeStream> {
 
   @override
   Widget build(BuildContext context) {
-    return SmartRefresher(
-      enablePullUp: true,
-      header: const WaterDropHeader(),
-      controller: _refreshController,
-      onRefresh: _onRefresh,
-      onLoading: _onLoading,
-      child: enableFeature
-          ? SingleChildScrollView(
-              clipBehavior: Clip.none,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        "Our Streams!",
-                        style: textH1,
-                      ),
-                      const Divider(
-                        thickness: 1,
-                      ),
-                      const StreamCardList()
-                    ]
+    return ChangeNotifierProvider(
+        create: (context) => RevenueCatProvider(),
+        builder: (context, build) {
+          final provider = Provider.of<RevenueCatProvider>(context);
+          return SmartRefresher(
+            enablePullUp: true,
+            header: const WaterDropHeader(),
+            controller: _refreshController,
+            onRefresh: _onRefresh,
+            onLoading: _onLoading,
+            child: true
+                ? SingleChildScrollView(
+                    clipBehavior: Clip.none,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              "Our Streams!",
+                              style: textH1,
+                            ),
+                            const Divider(
+                              thickness: 1,
+                            ),
+                            const StreamCardList()
+                          ]),
+                    ))
+                : Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.construction,
+                          size: 48,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          "Coming Soon!",
+                          style: textH2,
+                        ),
+                      ],
+                    ),
                   ),
-                )
-              )
-          : Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.construction, size: 48,),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Text("Coming Soon!", style: textH2,),
-                ],
-              ),
-            ),
-    );
+          );
+        });
   }
 
   Future _onRefresh() async {
@@ -107,7 +123,6 @@ class StreamCardList extends StatelessWidget {
         shrinkWrap: true,
         primary: false,
         itemBuilder: (context, index) {
-          log(cachedStream.toString());
           return StreamCard(cachedStream[index], "streamCard$index");
         });
   }

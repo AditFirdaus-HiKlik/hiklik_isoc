@@ -9,98 +9,101 @@ import 'dart:convert';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
-   Future<List<UserData>> getMembers({String category = ""}) async {
-    List<UserData> users = [];
+Future<List<UserData>> getMembers({String category = ""}) async {
+  List<UserData> users = [];
 
-    QuerySnapshot<Map<String, dynamic>> productRef;
+  QuerySnapshot<Map<String, dynamic>> productRef;
 
-    if (category == "")
-    {
-      productRef = await db.collection("users").get();
-    }
-    else
-    {
-      productRef = await db.collection("users").where('sport', isEqualTo: category).get();
-    }
-    for (var doc in productRef.docs) {
-      users.add(UserData.fromJson(doc.data()));
-    }
-
-    return users;
+  if (category == "") {
+    productRef = await db.collection("users").limit(10).get();
+  } else {
+    productRef = await db
+        .collection("users")
+        .where('sport', isEqualTo: category)
+        .limit(10)
+        .get();
   }
 
-   Future<List<StreamData>> getStreams() async {
-    List<StreamData> streams = [];
-
-    QuerySnapshot<Map<String, dynamic>> productRef;
-      
-    productRef = await db.collection("streaming").get();
-
-    for (var doc in productRef.docs) {
-      streams.add(StreamData.fromJson(doc.data()));
-    }
-
-    return streams;
+  for (var doc in productRef.docs) {
+    users.add(UserData.fromJson(doc.data()));
   }
 
-   Future<List<NewsData>> getNews({String category = ""}) async {
-    List<NewsData> news = [];
+  return users;
+}
 
-    try {
-      final response = await http.get(Uri.parse('http://hiklik-sports.herokuapp.com/api/articles?category=$category'));
+Future<List<StreamData>> getStreams() async {
+  List<StreamData> streams = [];
 
-      String body = response.body;
-      
-      Map<String, dynamic> map = jsonDecode(body);
+  QuerySnapshot<Map<String, dynamic>> productRef;
 
-      for (var newsJson in map["data"]["data"]) {
-        news.add(NewsData.fromJson(newsJson));
-      }
-    } catch (e) {
-      log("Fetch news failed");
-    }
+  productRef = await db.collection("streaming").get();
 
-    return news;
+  for (var doc in productRef.docs) {
+    streams.add(StreamData.fromJson(doc.data()));
   }
 
-   Future<List<EventData>> getEvents({String category = ""}) async {
-    List<EventData> news = [];
+  return streams;
+}
 
-    try {
-      final response = await http.get(Uri.parse(
-          'http://hiklik-sports.herokuapp.com/api/events?category=$category'));
+Future<List<NewsData>> getNews({String category = ""}) async {
+  List<NewsData> news = [];
 
-      String body = response.body;
+  try {
+    final response = await http.get(Uri.parse(
+        'http://isoc.co.id/api/articles?category=$category'));
 
-      Map<String, dynamic> map = jsonDecode(body);
+    String body = response.body;
 
-      for (var eventJson in map["data"]["data"]) {
-        news.add(EventData.fromJson(eventJson));
-      }
-    } catch (e) {
-      log("Fetch events failed");
+    Map<String, dynamic> map = jsonDecode(body);
+
+    for (var newsJson in map["data"]["data"]) {
+      news.add(NewsData.fromJson(newsJson));
     }
-
-    return news;
+  } catch (e) {
+    log("Fetch news failed");
   }
 
-  Future<List<LocationData>> getLocations({String category = ""}) async {
-    List<LocationData> news = [];
+  return news;
+}
 
-    try {
-      final response = await http.get(Uri.parse(
-          'http://hiklik-sports.herokuapp.com/api/locations?category=$category'));
+Future<List<EventData>> getEvents({String category = ""}) async {
+  List<EventData> events = [];
 
-      String body = response.body;
+  try {
+    final response = await http.get(Uri.parse(
+        'http://isoc.co.id/api/events?category=$category'));
 
-      Map<String, dynamic> map = jsonDecode(body);
+    String body = response.body;
 
-      for (var newsJson in map["data"]["data"]) {
-        news.add(LocationData.fromJson(newsJson));
-      }
-    } catch (e) {
-      log("Fetch locations failed");
+    Map<String, dynamic> map = jsonDecode(body);
+
+    for (var eventJson in map["data"]["data"]) {
+      events.add(EventData.fromJson(eventJson));
     }
-
-    return news;
+  } catch (e) {
+    log("Fetch events failed");
   }
+  
+  return events;
+}
+
+Future<List<LocationData>> getLocations({String category = ""}) async {
+  List<LocationData> locations = [];
+
+  try {
+    final response = await http.get(Uri.parse(
+        'http://isoc.co.id/api/locations?category=$category'));
+
+    String body = response.body;
+
+    Map<String, dynamic> map = jsonDecode(body);
+
+    for (var newsJson in map["data"]["data"]) {
+      locations.add(LocationData.fromJson(newsJson));
+    }
+  } catch (e) {
+    log("Fetch locations failed");
+  }
+
+  return locations;
+}

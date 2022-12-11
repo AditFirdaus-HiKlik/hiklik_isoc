@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:isoc/Pages/home/home_page.dart';
 import 'package:isoc/pages/auth/sign_in_page.dart';
 import 'package:isoc/pages/auth/sign_up_page.dart';
-import 'package:isoc/pages/auth_tree.dart';
 import 'package:isoc/pages/auth/verification_page.dart';
 import 'package:isoc/locale_provider.dart';
 import 'package:isoc/firebase_options.dart';
@@ -29,9 +29,12 @@ Future<void> main() async {
 
   log("Initialize SharedPreferences...", name: "main.dart");
   await initializeSharedPreferences();
-  
+
   // log("Initialize PaymentService...", name: "main.dart");
   // await PaymentService.instance.initConnection();
+
+  // log("Initialize RevenueCat...", name: "main.dart");
+  // await PurchaseApi.init();
 
   log("Running App...", name: "main.dart");
   runApp(const MyApp());
@@ -41,7 +44,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  
   const MyApp({super.key});
 
   @override
@@ -65,7 +67,7 @@ class MyApp extends StatelessWidget {
           ),
           initialRoute: '/',
           routes: {
-            '/': (context) => const AuthTree(),
+            '/': (context) => const HomePage(),
             '/signIn': (context) => const SignInPage(),
             '/signUp': (context) => const SignUpPage(),
             '/verification': (context) => const VerificationPage(),

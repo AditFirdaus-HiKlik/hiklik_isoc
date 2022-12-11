@@ -3,16 +3,43 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:isoc/Classes/content.dart';
 
 User? get user => FirebaseAuth.instance.currentUser;
 String get uid => user != null ? user!.uid : "1234567890";
 UserData currentUserData = UserData();
 DocumentReference<UserData> currentUserDataStream = UserData.Converter(uid);
+
+bool isUserSignIn() {
+  var currentUser = FirebaseAuth.instance.currentUser;
+  return currentUser != null ? true : false;
+}
+
+Future<UserData> getUserData() async {
+  log("Get UserData: Started...", name: "user.dart");
+
+  if (user != null) {
+    var snapshot =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    var data = snapshot.data();
+
+    if (data != null) {
+      currentUserData = UserData.fromJson(data);
+    } else {
+      log("Get UserData: User not found...", name: "user.dart");
+    }
+  } else {
+    log("Get UserData: User not logged in...", name: "user.dart");
+  }
+
+  log("Get UserData: Ended...", name: "user.dart");
+
+  return currentUserData;
+}
 
 class UserDataController {
   static final TextEditingController textController1 = TextEditingController();
@@ -67,6 +94,9 @@ class UserDataController {
 }
 
 class UserData {
+  static FirebaseFirestore refFirestore = FirebaseFirestore.instance;
+  static FirebaseStorage refStorage = FirebaseStorage.instance;
+
   String uid = "";
   String id = "";
 
@@ -167,72 +197,12 @@ class UserData {
 
   static DocumentReference<UserData> Converter(String uid) {
     return FirebaseFirestore.instance
-      .collection('users')
-      .doc(uid)
-      .withConverter<UserData>(
-        fromFirestore: (snapshot, _) => UserData.fromJson(snapshot.data()!),
-        toFirestore: (user, _) => user.toJson(),
-    );
-  }
-
-  Future<bool> isStreamPurchased() async {
-    Duration duration = await streamTimeLeft();
-
-    if (duration.isNegative) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  Future<Duration> streamTimeLeft() async {
-    Duration duration = const Duration(seconds: -1);
-
-    if (!await isConnectedToInternet()) return duration;
-
-    Timestamp? purchaseStamp = await getStreamPurchaseDate();
-
-    if (purchaseStamp != null) {
-      DateTime purchasedDate = purchaseStamp.toDate();
-      DateTime expiredDate = purchasedDate.add(const Duration(days: 30));
-
-      DateTime now = await internetTime();
-      duration = expiredDate.difference(now);
-      log(duration.toString());
-    }
-
-    return duration;
-  }
-
-  Future<Timestamp?> getStreamPurchaseDate() async {
-    Timestamp? time;
-
-    try {
-      final data = await FirebaseFirestore.instance
-          .collection('user-subscriptions')
-          .doc(user!.uid)
-          .get();
-      time = data["purchaseTime"];
-      // ignore: empty_catches
-    } catch (e) {}
-
-    return time;
-  }
-
-  Future<bool> purchaseStream() async {
-    if (!await isConnectedToInternet()) return false;
-    log("Purchasing Stream...");
-    Map<String, dynamic> map = {
-      'purchaseTime': Timestamp.fromDate(await internetTime()),
-    };
-
-    log(map.toString());
-    FirebaseFirestore.instance
-        .collection("user-subscriptions")
-        .doc(user!.uid)
-        .set(map);
-
-    return true;
+        .collection('users')
+        .doc(uid)
+        .withConverter<UserData>(
+          fromFirestore: (snapshot, _) => UserData.fromJson(snapshot.data()!),
+          toFirestore: (user, _) => user.toJson(),
+        );
   }
 }
 

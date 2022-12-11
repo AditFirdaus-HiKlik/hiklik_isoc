@@ -3,6 +3,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:isoc/Classes/user.dart';
 import 'package:isoc/app/app_config.dart';
 import 'package:isoc/l10n/l10n.dart';
 import 'package:isoc/locale_provider.dart';
@@ -18,6 +19,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
   bool _submitting = false;
 
   void toBack() {
@@ -159,23 +161,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const SizedBox(
                     height: 32,
-                  ),
-                  ElevatedButton(
-                    onPressed: signOut,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: appColors[4],
-                      minimumSize: const Size.fromHeight(48),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(32)),
-                      ),
-                    ),
-                    child: _submitting
-                        ? const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                            ),
-                          )
-                        : Text(AppLocalizations.of(context)!.settings_signout),
                   ),
                 ],
               ),

@@ -6,14 +6,12 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:isoc/Classes/user.dart';
 import 'package:isoc/Pages/Auth/auth_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isoc/app/app_config.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:path/path.dart' as p;
 
 class ProfileEditPage extends StatefulWidget {
   const ProfileEditPage({super.key});
@@ -123,7 +121,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   }
 
   Future<String> uploadImage() async {
-    log("Uploading Avatar: Ended", name: "sign_in_page.dart");
+    log("Uploading Avatar: Started", name: "sign_in_page.dart");
 
     FirebaseStorage storage = FirebaseStorage.instance;
 

@@ -15,7 +15,6 @@ import 'package:isoc/app/app_config.dart';
 import 'package:isoc/pages/profile_edit_page.dart';
 import 'package:isoc/sports_widget.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -324,14 +323,10 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void toProfileEdit() {
-    Navigator.of(context).push(PageTransition(
-      type: PageTransitionType.size,
-      curve: Curves.easeInOutQuart,
-      childCurrent: widget,
-      alignment: Alignment.bottomCenter,
-      child: const ProfileEditPage(),
-      duration: const Duration(milliseconds: 500),
-    ));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (context) => const ProfileEditPage()),
+    );
   }
 
   @override

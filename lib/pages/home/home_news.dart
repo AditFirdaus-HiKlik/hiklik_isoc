@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:isoc/Classes/content.dart';
-import 'package:isoc/pages/news_view_page.dart';
+import 'package:isoc/Pages/news_view_page.dart';
 import 'package:isoc/sports_widget.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 
 class HomeNews extends StatefulWidget {
   const HomeNews({super.key});
@@ -16,7 +14,6 @@ class HomeNews extends StatefulWidget {
 }
 
 class _HomeNewsState extends State<HomeNews> {
-
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -45,13 +42,13 @@ class _HomeNewsState extends State<HomeNews> {
                   thickness: 1,
                 ),
                 ListView.builder(
-                          clipBehavior: Clip.hardEdge,
-                          itemCount: cachedNews.length,
-                          shrinkWrap: true,
-                          primary: false,
-                          itemBuilder: (context, index) {
-                            return NewsCard(cachedNews[index]);
-                          }),
+                    clipBehavior: Clip.hardEdge,
+                    itemCount: cachedNews.length,
+                    shrinkWrap: true,
+                    primary: false,
+                    itemBuilder: (context, index) {
+                      return NewsCard(cachedNews[index], index);
+                    }),
               ]),
         ),
       ),
@@ -79,8 +76,9 @@ class _HomeNewsState extends State<HomeNews> {
 
 class NewsCard extends StatelessWidget {
   final NewsData _newsData;
+  final int index;
 
-  const NewsCard(this._newsData, {super.key});
+  const NewsCard(this._newsData, this.index, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -92,14 +90,10 @@ class NewsCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.of(context).push(PageTransition(
-            type: PageTransitionType.size,
-            curve: Curves.easeInOutQuart,
-            childCurrent: this,
-            alignment: Alignment.bottomCenter,
-            child: NewsViewPage(_newsData),
-            duration: const Duration(milliseconds: 500),
-          ));
+          Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context) => NewsViewPage(_newsData, index)),
+          );
         },
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -111,8 +105,7 @@ class NewsCard extends StatelessWidget {
                   flex: 1,
                   child: CachedNetworkImage(
                     height: 96,
-                    imageUrl:
-                        _newsData.featured_image,
+                    imageUrl: _newsData.featured_image,
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) {
                       return const Image(

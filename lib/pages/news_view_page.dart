@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -7,8 +6,9 @@ import 'package:isoc/app/app_config.dart';
 
 class NewsViewPage extends StatefulWidget {
   final NewsData _newsData;
+  final int index;
 
-  const NewsViewPage(this._newsData, {super.key});
+  const NewsViewPage(this._newsData, this.index, {super.key});
 
   @override
   State<NewsViewPage> createState() => _NewsViewPageState();
@@ -46,36 +46,49 @@ class _NewsViewPageState extends State<NewsViewPage> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                Text(
-                  widget._newsData.title,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                CachedNetworkImage(
-                  height: 256,
-                  imageUrl: widget._newsData.featured_image,
-                  fit: BoxFit.cover,
-                  errorWidget: (context, url, error) {
-                    return const Image(
-                      image: AssetImage('assets/no_image.png'),
-                      fit: BoxFit.cover,
+                    Text(
+                      widget._newsData.author,
+                      textAlign: TextAlign.right,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Text(
+                      widget._newsData.title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    CachedNetworkImage(
                       height: 256,
-                    );
-                  },
-                  progressIndicatorBuilder: (context, url, progress) {
-                    return const Center(child: CircularProgressIndicator());
-                  },
-                ),
-                const Divider(
-                  thickness: 1,
-                  height: 32,
-                ),
-                Html(data: widget._newsData.content, shrinkWrap: true,),
+                      imageUrl: widget._newsData.featured_image,
+                      fit: BoxFit.cover,
+                      errorWidget: (context, url, error) {
+                        return const Image(
+                          image: AssetImage('assets/no_image.png'),
+                          fit: BoxFit.cover,
+                          height: 256,
+                        );
+                      },
+                      progressIndicatorBuilder: (context, url, progress) {
+                        return const Center(
+                            child: CircularProgressIndicator());
+                      },
+                    ),
+                    
+                    const Divider(
+                      thickness: 1,
+                      height: 32,
+                    ),
+                    Html(
+                      data: widget._newsData.content,
+                      shrinkWrap: true,
+                    ),
                   ],
                 ),
               ),
