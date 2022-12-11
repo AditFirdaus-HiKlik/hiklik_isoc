@@ -86,33 +86,23 @@ class StreamData {
 }
 
 Future fetchNews() async {
-  log("Fetching News: Started...", name: "sign_in_page.dart");
   cachedNews = await getNews(category: appSportMode);
-  log("Fetching News: Ended...", name: "sign_in_page.dart");
 }
 
 Future fetchEvents() async {
-  log("Fetching Event: Started...", name: "content.dart");
   cachedEvent = await getEvents(category: appSportMode);
-  log("Fetching Event: Ended...", name: "content.dart");
 }
 
 Future fetchMembers() async {
-  log("Fetching Member: Started...", name: "content.dart");
   cachedMember = await getMembers(category: appSportMode);
-  log("Fetching Member: Ended...", name: "content.dart");
 }
 
 Future fetchLocations() async {
-  log("Fetching Location: Started...", name: "content.dart");
   cachedLocation = await getLocations(category: appSportMode);
-  log("Fetching Location: Ended...", name: "content.dart");
 }
 
 Future fetchStreams() async {
-  log("Stream: Fetching Stream Started...", name: "content.dart");
   cachedStream = await getStreams();
-  log("Stream: Fetching Stream Ended...", name: "content.dart");
 }
 
 Future fetchAll() async {

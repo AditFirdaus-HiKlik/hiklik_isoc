@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:isoc/debug.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class PurchaseApi {
@@ -17,26 +18,52 @@ class PurchaseApi {
   }
 
   static Future<List<Offering>> fetchOffers({bool all = true}) async {
-    // try {
-    final offerings = await Purchases.getOfferings();
-    log(offerings.toString());
-    if (!all) {
-      final current = offerings.current;
+    var customDebug =
+        CustomDebug("purchase_api.dart", "PuchaseApi", "fetchOffers", "$all");
 
-      return current == null ? [] : [current];
-    } else {
-      return offerings.all.values.toList();
+    customDebug.writeLog(state: "[Start]");
+
+    List<Offering> offerings = [];
+
+    try {
+      final fetchedOfferings = await Purchases.getOfferings();
+      if (!all) {
+        final current = fetchedOfferings.current;
+
+        offerings = current == null ? [] : [current];
+      } else {
+        offerings = fetchedOfferings.all.values.toList();
+      }
+
+      customDebug.writeLog(state: "[Fetched]", value: offerings.toString());
+    } catch (e) {
+      customDebug.writeLog(state: "[Error]");
     }
-    // } catch (e) {
-    //   return [];
-    // }
+
+    customDebug.writeLog(state: "[End]", value: offerings.toString());
+
+    return offerings;
   }
 
   static Future<CustomerInfo?> purchasePackage(Package package) async {
+    var customDebug = CustomDebug(
+        "purchase_api.dart", "PuchaseApi", "purchasePackage", "$package");
+
+    CustomerInfo? result;
+
+    customDebug.writeLog(state: "[Start]");
+
     try {
-      return await Purchases.purchasePackage(package);
+      result = await Purchases.purchasePackage(package);
+
+      customDebug.writeLog(state: "[Fetched]", value: result.toString());
     } catch (e) {
-      return null;
+      result = null;
+      customDebug.writeLog(state: "[Error]");
     }
+
+    customDebug.writeLog(state: "[End]", value: result.toString());
+
+    return result;
   }
 }

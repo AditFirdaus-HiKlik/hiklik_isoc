@@ -60,8 +60,6 @@ class _HomeLocationsState extends State<HomeLocations> {
   }
 
   Future _onRefresh() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-
     await fetchAll();
 
     if (mounted) {

@@ -11,6 +11,8 @@ import 'package:isoc/locale_provider.dart';
 import 'package:isoc/firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:isoc/l10n/l10n.dart';
+import 'package:isoc/services/purchase_api.dart';
+import 'package:isoc/services/revenuecat.dart';
 import 'package:isoc/services/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -30,11 +32,8 @@ Future<void> main() async {
   log("Initialize SharedPreferences...", name: "main.dart");
   await initializeSharedPreferences();
 
-  // log("Initialize PaymentService...", name: "main.dart");
-  // await PaymentService.instance.initConnection();
-
-  // log("Initialize RevenueCat...", name: "main.dart");
-  // await PurchaseApi.init();
+  log("Initialize RevenueCat...", name: "main.dart");
+  await PurchaseApi.init();
 
   log("Running App...", name: "main.dart");
   runApp(const MyApp());
@@ -52,27 +51,31 @@ class MyApp extends StatelessWidget {
       create: (context) => LocaleProvider(),
       builder: (context, child) {
         final provider = Provider.of<LocaleProvider>(context);
-        return MaterialApp(
-          title: 'Indonesia Sports and Olympic Community',
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          locale: provider.locale,
-          supportedLocales: L10n.all,
-          theme: ThemeData(
-            primarySwatch: Colors.blueGrey,
-          ),
-          initialRoute: '/',
-          routes: {
-            '/': (context) => const HomePage(),
-            '/signIn': (context) => const SignInPage(),
-            '/signUp': (context) => const SignUpPage(),
-            '/verification': (context) => const VerificationPage(),
-          },
-        );
+        return ChangeNotifierProvider(
+            create: (context) => RevenueCatProvider(),
+            builder: (context, child) {
+              return MaterialApp(
+                title: 'Indonesia Sports and Olympic Community',
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                locale: provider.locale,
+                supportedLocales: L10n.all,
+                theme: ThemeData(
+                  primarySwatch: Colors.blueGrey,
+                ),
+                initialRoute: '/',
+                routes: {
+                  '/': (context) => const HomePage(),
+                  '/signIn': (context) => const SignInPage(),
+                  '/signUp': (context) => const SignUpPage(),
+                  '/verification': (context) => const VerificationPage(),
+                },
+              );
+            });
       },
     );
   }

@@ -56,8 +56,6 @@ class _HomeNewsState extends State<HomeNews> {
   }
 
   Future _onRefresh() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-
     await fetchAll();
 
     if (mounted) {

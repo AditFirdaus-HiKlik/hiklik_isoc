@@ -37,7 +37,7 @@ class _HomeMembersState extends State<HomeMembers> {
 
     Query<Map<String, dynamic>> query = ref;
     
-    query = query.limit(50);
+    query = query.limit(10);
 
     if (valueSport != "") {
       query = query.where("type_sports", isEqualTo: valueSport);
@@ -50,8 +50,6 @@ class _HomeMembersState extends State<HomeMembers> {
 
     return query.get();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {

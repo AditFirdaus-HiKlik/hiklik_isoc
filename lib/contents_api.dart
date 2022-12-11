@@ -7,45 +7,80 @@ import 'package:isoc/Classes/user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:isoc/debug.dart';
+
 FirebaseFirestore db = FirebaseFirestore.instance;
 
 Future<List<UserData>> getMembers({String category = ""}) async {
+  
+  var customDebug = CustomDebug(
+        "contents_api.dart", "", "getMembers", category);
+
+  customDebug.writeLog(state: "[Start]");
+
   List<UserData> users = [];
 
-  QuerySnapshot<Map<String, dynamic>> productRef;
+  try {
 
-  if (category == "") {
-    productRef = await db.collection("users").limit(10).get();
-  } else {
-    productRef = await db
-        .collection("users")
-        .where('sport', isEqualTo: category)
-        .limit(10)
-        .get();
+    QuerySnapshot<Map<String, dynamic>> usersRef;
+
+    if (category == "") {
+      usersRef = await db.collection("users").limit(10).get();
+    } else {
+      usersRef = await db
+          .collection("users")
+          .where('sport', isEqualTo: category)
+          .limit(10)
+          .get();
+    }
+
+    for (var doc in usersRef.docs) {
+      users.add(UserData.fromJson(doc.data()));
+    }
+
+    customDebug.writeLog(state: "[Fetched]", value: usersRef.toString());
+  } catch (e) {
+    customDebug.writeLog(state: "[Error]");
   }
 
-  for (var doc in productRef.docs) {
-    users.add(UserData.fromJson(doc.data()));
-  }
+  customDebug.writeLog(state: "[End]");
 
   return users;
 }
 
 Future<List<StreamData>> getStreams() async {
+  var customDebug = CustomDebug(
+        "contents_api.dart", "", "getStreams", "");
+
+  customDebug.writeLog(state: "[Start]");
+
   List<StreamData> streams = [];
 
-  QuerySnapshot<Map<String, dynamic>> productRef;
+  try {
 
-  productRef = await db.collection("streaming").get();
+    QuerySnapshot<Map<String, dynamic>> streamingRef;
 
-  for (var doc in productRef.docs) {
-    streams.add(StreamData.fromJson(doc.data()));
+    streamingRef = await db.collection("streaming").get();
+
+    for (var doc in streamingRef.docs) {
+      streams.add(StreamData.fromJson(doc.data()));
+    }
+
+    customDebug.writeLog(state: "[Fetched]", value: streamingRef.toString());
+  } catch (e) {
+    customDebug.writeLog(state: "[Error]");
   }
+
+  customDebug.writeLog(state: "[End]");
 
   return streams;
 }
 
 Future<List<NewsData>> getNews({String category = ""}) async {
+
+  var customDebug = CustomDebug(
+        "contents_api.dart", "", "getNews", category);
+
   List<NewsData> news = [];
 
   try {
@@ -59,14 +94,22 @@ Future<List<NewsData>> getNews({String category = ""}) async {
     for (var newsJson in map["data"]["data"]) {
       news.add(NewsData.fromJson(newsJson));
     }
+
+    customDebug.writeLog(state: "[Fetched]", value: map.toString());
   } catch (e) {
-    log("Fetch news failed");
+    customDebug.writeLog(state: "[Error]");
   }
+
+  customDebug.writeLog(state: "[End]");
 
   return news;
 }
 
 Future<List<EventData>> getEvents({String category = ""}) async {
+
+  var customDebug = CustomDebug(
+        "contents_api.dart", "", "getEvents", category);
+
   List<EventData> events = [];
 
   try {
@@ -80,14 +123,24 @@ Future<List<EventData>> getEvents({String category = ""}) async {
     for (var eventJson in map["data"]["data"]) {
       events.add(EventData.fromJson(eventJson));
     }
+
+    customDebug.writeLog(state: "[Fetched]", value: map.toString());
   } catch (e) {
-    log("Fetch events failed");
+    customDebug.writeLog(state: "[Error]");
   }
   
+  customDebug.writeLog(state: "[End]");
+
   return events;
 }
 
 Future<List<LocationData>> getLocations({String category = ""}) async {
+
+  var customDebug = CustomDebug(
+        "contents_api.dart", "", "getLocations", category);
+
+  customDebug.writeLog(state: "[Start]");
+
   List<LocationData> locations = [];
 
   try {
@@ -101,9 +154,13 @@ Future<List<LocationData>> getLocations({String category = ""}) async {
     for (var newsJson in map["data"]["data"]) {
       locations.add(LocationData.fromJson(newsJson));
     }
+
+    customDebug.writeLog(state: "[Fetched]", value: map.toString());
   } catch (e) {
-    log("Fetch locations failed");
+    customDebug.writeLog(state: "[Error]");
   }
+
+  customDebug.writeLog(state: "[End]");
 
   return locations;
 }

@@ -37,15 +37,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   void toProfile() {
-    if (isUserSignIn()) {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => ProfilePage()),
-      );
-    } else {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => SignInPage()),
-      );
-    }
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => ProfilePage()),
+    );
+  }
+
+  void toSignIn() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => SignInPage()),
+    );
   }
 
   @override
@@ -67,66 +67,8 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: appColors[0],
+          foregroundColor: appColors[3],
           elevation: 1,
-          // leading: PopupMenuButton(
-          //   onSelected: (value) {
-          //     switch (value) {
-          //       case "Profile":
-          //         toProfile();
-          //         break;
-          //       case "Settings":
-          //         toSettings();
-          //         break;
-          //       default:
-          //     }
-          //   },
-          //   icon: Icon(
-          //     Icons.menu,
-          //     color: appColors[3],
-          //   ),
-          //   shape: const RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.only(
-          //       bottomLeft: Radius.circular(8.0),
-          //       bottomRight: Radius.circular(8.0),
-          //       topLeft: Radius.circular(8.0),
-          //       topRight: Radius.circular(8.0),
-          //     ),
-          //   ),
-          //   itemBuilder: (context) {
-          //     return [
-          //       PopupMenuItem(
-          //         value: "Profile",
-          //         child: Row(
-          //           children: [
-          //             const Icon(
-          //               Icons.person,
-          //               color: Colors.black,
-          //             ),
-          //             const SizedBox(
-          //               width: 16,
-          //             ),
-          //             Text(AppLocalizations.of(context)!.profile),
-          //           ],
-          //         ),
-          //       ),
-          //       PopupMenuItem(
-          //         value: "Settings",
-          //         child: Row(
-          //           children: [
-          //             const Icon(
-          //               Icons.settings,
-          //               color: Colors.black,
-          //             ),
-          //             const SizedBox(
-          //               width: 16,
-          //             ),
-          //             Text(AppLocalizations.of(context)!.settings),
-          //           ],
-          //         ),
-          //       ),
-          //     ];
-          //   },
-          // ),
           title: Image.asset(
             "assets/header.png",
             height: 32,
@@ -220,10 +162,22 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         builder: (context) => const SettingsPage(),
       ),
     );
+
+    setState(() {});
   }
 
   Future toSignOut() async {
-    Navigator.of(context).popUntil((route) => route.isFirst);
+    await FirebaseAuth.instance.signOut();
+
+    setState(() {});
+  }
+
+  Future toSignIn() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => SignInPage()),
+    );
+
+    setState(() {});
   }
 
   @override
@@ -233,40 +187,64 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           _drawerHeader(),
-          _drawerItem(
-            icon: Icons.person,
-            text: 'My Profile',
-            onTap: toProfile,
-          ),
+          if (isUserSignIn())
+            _drawerItem(
+              icon: Icons.person,
+              text: 'My Profile',
+              onTap: toProfile,
+            )
+          else
+            _drawerItem(
+              icon: Icons.login,
+              text: 'Sign In',
+              onTap: toSignIn,
+            ),
           _drawerItem(
             icon: Icons.settings,
             text: 'Settings',
             onTap: toSettings,
           ),
-          if (isUserSignIn()) _drawerItem(
-            icon: Icons.exit_to_app,
-            text: 'Sign Out',
-            onTap: toSignOut,
-          ),
+          if (isUserSignIn())
+            _drawerItem(
+              icon: Icons.exit_to_app,
+              text: 'Sign Out',
+              onTap: toSignOut,
+            ),
         ],
       ),
     );
   }
 
   Widget _drawerHeader() {
-    return isUserSignIn() ? UserAccountsDrawerHeader(
-      currentAccountPicture: ClipOval(
-        child: Image.network(currentUserData.user_avatar.url),
-      ),
-      accountName: Text(currentUserData.user_name),
-      accountEmail: Text(currentUserData.user_email),
-    ) : UserAccountsDrawerHeader(
-      currentAccountPicture: ClipOval(
-        child: Image.asset("avatar.png"),
-      ),
-      accountName: const Text('Sign In'),
-      accountEmail: const Text('To view your account'),
-    );
+    log(currentUserData.user_avatar.url.toString());
+    return isUserSignIn()
+        ? UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
+              color: appColors[2],
+            ),
+            currentAccountPicture: ClipOval(
+              child: Image.network(
+                currentUserData.user_avatar.url,
+                fit: BoxFit.cover,
+              ),
+            ),
+            accountName: Text(currentUserData.user_name),
+            accountEmail: Text(user!.email!),
+          )
+        : UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
+              color: appColors[2],
+            ),
+            currentAccountPicture: ClipOval(
+              child: Image.asset("assets/avatar.png"),
+            ),
+            accountName: Text(
+              'Sign In',
+            ),
+            accountEmail: Text(
+              'To edit your account',
+            ),
+          );
   }
 
   Widget _drawerItem(

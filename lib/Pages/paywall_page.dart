@@ -25,15 +25,16 @@ class _PaywallPageState extends State<PaywallPage> {
           builder: (context, snapshot) {
             log(snapshot.toString());
 
-            final offerings = snapshot.data;
+            if (snapshot.data != null) {
+              final offerings = snapshot.data!;
 
-            final packages = offerings!
-                .map((e) => e.availablePackages)
-                .expand((element) => element)
-                .toList();
+              final packages = offerings
+                  .map((e) => e.availablePackages)
+                  .expand((element) => element)
+                  .toList();
 
-            if (packages.isNotEmpty) {
               return ListView.builder(
+                shrinkWrap: true,
                 itemCount: packages.length,
                 itemBuilder: (context, index) {
                   return paywallPackage(packages[index]);
