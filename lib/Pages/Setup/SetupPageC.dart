@@ -7,7 +7,6 @@ import 'package:isoc/Pages/Auth/auth_widget.dart';
 import 'package:isoc/Pages/home/home_page.dart';
 import 'package:isoc/app/app_config.dart';
 import 'package:isoc/contents_api.dart';
-import 'package:isoc/pages/auth_tree.dart';
 
 class SetupPageC extends StatefulWidget {
   const SetupPageC({super.key});

@@ -2,12 +2,11 @@
 
 import 'dart:developer';
 
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:isoc/Classes/content.dart';
 import 'package:isoc/app/app_config.dart';
 import 'package:isoc/sports_widget.dart';
-import 'package:video_player/video_player.dart';
 
 class StreamPage extends StatefulWidget {
   final StreamData _streamData;
@@ -19,7 +18,11 @@ class StreamPage extends StatefulWidget {
 }
 
 class _StreamPageState extends State<StreamPage> {
-  late VideoPlayerController _controller = VideoPlayerController.network("");
+
+  final double playerWidth = 640;
+  final double playerHeight = 360;
+
+  late VlcPlayerController controller;
 
   String error = "";
 
@@ -34,39 +37,27 @@ class _StreamPageState extends State<StreamPage> {
 
     log(hlsURL);
 
-    _controller = VideoPlayerController.network(
-      hlsURL,
-    )..initialize().then((_) {
-        setState(() {
-          chewieController = ChewieController(
-            videoPlayerController: _controller,
-            autoPlay: true,
-            looping: true,
-            errorBuilder: (context, errorMessage) {
-              return Text(errorMessage);
-            },
-          );
-        });
-      }).onError((error, stackTrace) async {
-        error == error.toString();
-      });
-  }
+    controller = VlcPlayerController.network(hlsURL);
 
-  late ChewieController chewieController;
+    log(controller.toString());
+
+    // controller
+    //     .initialize()
+    //     .then((value) => setState(() {}))
+    //     .onError((error, stackTrace) => log(error.toString()));
+  }
 
   @override
   void initState() {
     super.initState();
-    chewieController = ChewieController(videoPlayerController: _controller);
     initializeVideo();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    chewieController.dispose();
-    _controller.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   controller.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -96,15 +87,12 @@ class _StreamPageState extends State<StreamPage> {
                   child: AspectRatio(
                     aspectRatio: 1.777,
                     child: Center(
-                      child: (_controller.value.isInitialized)
-                          ? AspectRatio(
-                              aspectRatio: _controller.value.aspectRatio,
-                              child: Chewie(controller: chewieController),
-                            )
-                          : const CircularProgressIndicator(
-                              color: Colors.white,
-                            ),
-                    ),
+                        child: VlcPlayer(
+                      aspectRatio: 16 / 9,
+                      controller: controller,
+                      placeholder:
+                          const Center(child: CircularProgressIndicator()),
+                    )),
                   ),
                 ),
                 Card(
