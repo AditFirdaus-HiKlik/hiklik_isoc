@@ -46,6 +46,8 @@ dependencies:
   purchases_flutter: ^4.5.0
   get: ^4.6.5
   flutter_vlc_player: ^7.1.5
+  shimmer: ^2.0.0
+  infinite_scroll_pagination: ^3.2.0
 
 dev_dependencies:
   flutter_test:

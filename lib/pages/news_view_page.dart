@@ -6,9 +6,8 @@ import 'package:isoc/app/app_config.dart';
 
 class NewsViewPage extends StatefulWidget {
   final NewsData _newsData;
-  final int index;
 
-  const NewsViewPage(this._newsData, this.index, {super.key});
+  const NewsViewPage(this._newsData, {super.key});
 
   @override
   State<NewsViewPage> createState() => _NewsViewPageState();

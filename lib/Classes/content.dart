@@ -14,6 +14,11 @@ List<UserData> cachedMember = [];
 List<LocationData> cachedLocation = [];
 List<StreamData> cachedStream = [];
 
+int pageNews = 1;
+int pageEvent = 1;
+int pageMember = 1;
+int pageLocation = 1;
+
 class EventData {
   String featured_image = "";
   String title = "";
@@ -26,7 +31,8 @@ class EventData {
       this.address, this.phone);
 
   EventData.fromJson(Map<String, dynamic> json) {
-    if (json.containsKey("featured_image")) featured_image = json['featured_image'].toString();
+    if (json.containsKey("featured_image"))
+      featured_image = json['featured_image'].toString();
     if (json.containsKey("title")) title = json['title'].toString();
     if (json.containsKey("type")) type = json['type'].toString();
     if (json.containsKey("date_time")) date_time = json['date_time'].toString();
@@ -56,6 +62,7 @@ class LocationData {
 }
 
 class NewsData {
+  String id = "";
   String featured_image = "";
   String title = "";
   String content = "";
@@ -64,11 +71,15 @@ class NewsData {
   NewsData(this.featured_image, this.title, this.content);
 
   NewsData.fromJson(Map<String, dynamic> json) {
-    if (json.containsKey("featured_image")) featured_image = json['featured_image'].toString();
-    if (json.containsKey("title")) title = json['title'].toString();
-    if (json.containsKey("content")) content = json['content'].toString();
-    if (json.containsKey("author")) author = json['author'].toString();
+    id = assign(json, "id");
+    featured_image = assign(json, "featured_image");
+    title = assign(json, "title");
+    content = assign(json, "content");
+    author = assign(json, "author");
   }
+
+  String assign(Map<String, dynamic> json, String key) =>
+      json.containsKey(key) ? json[key].toString() : "";
 }
 
 class StreamData {
@@ -80,7 +91,8 @@ class StreamData {
 
   StreamData.fromJson(Map<String, dynamic> json) {
     if (json.containsKey("name")) name = json['name'].toString();
-    if (json.containsKey("description")) description = json['description'].toString();
+    if (json.containsKey("description"))
+      description = json['description'].toString();
     if (json.containsKey("url")) url = json['url'].toString();
   }
 }
@@ -105,7 +117,39 @@ Future fetchStreams() async {
   cachedStream = await getStreams();
 }
 
+Future fetchLoadNews() async {
+  var temp = await getNews(category: appSportMode, page: pageNews);
+  if (temp.isNotEmpty) pageNews++;
+  cachedNews += temp;
+}
+
+Future fetchLoadEvents() async {
+  var temp = await getEvents(category: appSportMode, page: pageEvent);
+  if (temp.isNotEmpty) pageEvent++;
+  cachedEvent += temp;
+}
+
+Future fetchLoadMembers() async {
+  var temp = await getMembers(category: appSportMode, page: pageMember);
+  if (temp.isNotEmpty) pageMember++;
+  cachedMember += temp;
+}
+
+Future fetchLoadLocations() async {
+  var temp = await getLocations(category: appSportMode, page: pageLocation);
+  if (temp.isNotEmpty) pageLocation++;
+  cachedLocation += temp;
+}
+
+Future fetchLoadStreams() async {
+  cachedStream = await getStreams();
+}
+
 Future fetchAll() async {
+  pageNews = 2;
+  pageEvent = 2;
+  pageLocation = 2;
+
   await fetchNews();
   await fetchEvents();
   await fetchLocations();

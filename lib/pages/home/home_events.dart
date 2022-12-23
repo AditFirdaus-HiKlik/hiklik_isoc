@@ -66,6 +66,12 @@ class _HomeEventsState extends State<HomeEvents> {
   Future _onLoading() async {
     await Future.delayed(const Duration(milliseconds: 1000));
 
+    await fetchLoadEvents();
+
+    if (mounted) {
+      setState(() {});
+    }
+
     _refreshController.loadComplete();
   }
 }

@@ -72,6 +72,12 @@ class _HomeLocationsState extends State<HomeLocations> {
   Future _onLoading() async {
     await Future.delayed(const Duration(milliseconds: 1000));
 
+    await fetchLoadLocations();
+
+    if (mounted) {
+      setState(() {});
+    }
+
     _refreshController.loadComplete();
   }
 }

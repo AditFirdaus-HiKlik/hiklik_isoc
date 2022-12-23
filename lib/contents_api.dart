@@ -11,17 +11,15 @@ import 'package:isoc/debug.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
-Future<List<UserData>> getMembers({String category = ""}) async {
-  
-  var customDebug = CustomDebug(
-        "contents_api.dart", "", "getMembers", category);
+Future<List<UserData>> getMembers({String category = "", int page = 1}) async {
+  var customDebug =
+      CustomDebug("contents_api.dart", "", "getMembers", category);
 
   customDebug.writeLog(state: "[Start]");
 
   List<UserData> users = [];
 
   try {
-
     QuerySnapshot<Map<String, dynamic>> usersRef;
 
     if (category == "") {
@@ -49,15 +47,13 @@ Future<List<UserData>> getMembers({String category = ""}) async {
 }
 
 Future<List<StreamData>> getStreams() async {
-  var customDebug = CustomDebug(
-        "contents_api.dart", "", "getStreams", "");
+  var customDebug = CustomDebug("contents_api.dart", "", "getStreams", "");
 
   customDebug.writeLog(state: "[Start]");
 
   List<StreamData> streams = [];
 
   try {
-
     QuerySnapshot<Map<String, dynamic>> streamingRef;
 
     streamingRef = await db.collection("streaming").get();
@@ -76,45 +72,56 @@ Future<List<StreamData>> getStreams() async {
   return streams;
 }
 
-Future<List<NewsData>> getNews({String category = ""}) async {
+Future<List<NewsData>> getNews({String category = "", int page = 1}) async {
+  var customDebug = CustomDebug("contents_api.dart", "", "getNews", category);
 
-  var customDebug = CustomDebug(
-        "contents_api.dart", "", "getNews", category);
+  customDebug.writeLog(state: "[Start]");
+
+  String endpoint = 'https://isoc.co.id/api/articles?';
+
+  if (category != "") endpoint += 'category=$category';
+  if (page != 0) endpoint += 'page=$page';
 
   List<NewsData> news = [];
 
-  try {
-    final response = await http.get(Uri.parse(
-        'http://isoc.co.id/api/articles?category=$category'));
+  // try {
 
-    String body = response.body;
+  final response = await http.get(Uri.parse(endpoint));
 
-    Map<String, dynamic> map = jsonDecode(body);
+  log(response.body);
 
-    for (var newsJson in map["data"]["data"]) {
-      news.add(NewsData.fromJson(newsJson));
-    }
+  String body = response.body;
 
-    customDebug.writeLog(state: "[Fetched]", value: map.toString());
-  } catch (e) {
-    customDebug.writeLog(state: "[Error]");
+  Map<String, dynamic> map = jsonDecode(body);
+
+  for (var newsJson in map["data"]["data"]) {
+    news.add(NewsData.fromJson(newsJson));
   }
+
+  customDebug.writeLog(state: "[Fetched]", value: map.toString());
+  // } catch (e) {
+  //   customDebug.writeLog(state: "[Error]");
+  // }
 
   customDebug.writeLog(state: "[End]");
 
   return news;
 }
 
-Future<List<EventData>> getEvents({String category = ""}) async {
+Future<List<EventData>> getEvents({String category = "", int page = 1}) async {
+  var customDebug = CustomDebug("contents_api.dart", "", "getEvents", category);
 
-  var customDebug = CustomDebug(
-        "contents_api.dart", "", "getEvents", category);
+  customDebug.writeLog(state: "[Start]");
+
+  String endpoint = 'https://isoc.co.id/api/events?';
+
+  if (category != "") endpoint += 'category=$category';
+  if (page != 0) endpoint += 'page=$page';
 
   List<EventData> events = [];
 
   try {
-    final response = await http.get(Uri.parse(
-        'http://isoc.co.id/api/events?category=$category'));
+    final response = await http.get(Uri.parse(endpoint));
 
     String body = response.body;
 
@@ -128,24 +135,28 @@ Future<List<EventData>> getEvents({String category = ""}) async {
   } catch (e) {
     customDebug.writeLog(state: "[Error]");
   }
-  
+
   customDebug.writeLog(state: "[End]");
 
   return events;
 }
 
-Future<List<LocationData>> getLocations({String category = ""}) async {
-
-  var customDebug = CustomDebug(
-        "contents_api.dart", "", "getLocations", category);
+Future<List<LocationData>> getLocations(
+    {String category = "", int page = 1}) async {
+  var customDebug =
+      CustomDebug("contents_api.dart", "", "getLocations", category);
 
   customDebug.writeLog(state: "[Start]");
+
+  String endpoint = 'https://isoc.co.id/api/locations?';
+
+  if (category != "") endpoint += 'category=$category';
+  if (page != 0) endpoint += 'page=$page';
 
   List<LocationData> locations = [];
 
   try {
-    final response = await http.get(Uri.parse(
-        'http://isoc.co.id/api/locations?category=$category'));
+    final response = await http.get(Uri.parse(endpoint));
 
     String body = response.body;
 

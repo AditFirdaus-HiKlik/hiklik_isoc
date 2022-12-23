@@ -32,8 +32,12 @@ Future<void> main() async {
   log("Initialize SharedPreferences...", name: "main.dart");
   await initializeSharedPreferences();
 
-  log("Initialize RevenueCat...", name: "main.dart");
-  await PurchaseApi.init();
+  try {
+    log("Initialize RevenueCat...", name: "main.dart");
+    await PurchaseApi.init();
+  } catch (e) {
+    log("Initialize RevenueCat [Failed]", name: "main.dart");
+  }
 
   log("Running App...", name: "main.dart");
   runApp(const MyApp());
