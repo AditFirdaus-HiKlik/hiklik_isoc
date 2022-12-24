@@ -72,33 +72,35 @@ Future<List<StreamData>> getStreams() async {
   return streams;
 }
 
-Future<List<NewsData>> getNews({String category = "", int page = 1}) async {
+Future<List<NewsData>> getNews({String category = "", int page = 5}) async {
   var customDebug = CustomDebug("contents_api.dart", "", "getNews", category);
 
   customDebug.writeLog(state: "[Start]");
 
-  String endpoint = 'https://isoc.co.id/api/articles?';
+  String endpoint = 'https://isoc.co.id/api/articles';
 
-  if (category != "") endpoint += 'category=$category';
-  if (page != 0) endpoint += 'page=$page';
+  endpoint += '/posts?';
+  // if (category.isEmpty) endpoint += 'category=$category&';
+  endpoint += 'start=$page';
+  endpoint += '&';
+  endpoint += 'limit=10';
 
   List<NewsData> news = [];
 
   // try {
-
+  customDebug.writeLog(state: "[Endpoint URL]", value: endpoint);
   final response = await http.get(Uri.parse(endpoint));
 
   log(response.body);
 
   String body = response.body;
 
-  Map<String, dynamic> map = jsonDecode(body);
+  List json = jsonDecode(body);
 
-  for (var newsJson in map["data"]["data"]) {
-    news.add(NewsData.fromJson(newsJson));
-  }
+  json.map((e) => news.add(NewsData.fromJson(e))).toList();
 
-  customDebug.writeLog(state: "[Fetched]", value: map.toString());
+  customDebug.writeLog(
+      state: "[Fetched]", value: json.map((e) => e).toList().toString());
   // } catch (e) {
   //   customDebug.writeLog(state: "[Error]");
   // }

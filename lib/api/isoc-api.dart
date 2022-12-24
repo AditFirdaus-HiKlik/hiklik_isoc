@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -6,46 +7,52 @@ import 'package:http/http.dart' as http;
 import '../Classes/content.dart';
 
 class NewsApi {
-  static String endpoint = "https://isoc.co.id/api/articles";
+  final String _apiUrl = 'https://isoc.co.id/api/articles/posts';
 
-  static Map<String, NewsData> newsMap = {};
-  static List<NewsData> get newsList => newsMap.values.toList();
+  final int _limit = 10;
 
-  static void clearNews() => newsMap = {};
+  int _startIndex = 0;
 
-  static Future<List<NewsData>> Load(
-      {String category = "", int page = 1}) async {
-    List<NewsData> tempNews = [];
+  final List<NewsData> _articles = [];
 
-    String finalEndpoint = "$endpoint?category=$category&page=$page";
+  final StreamController<List<NewsData>> _newsController = StreamController();
 
-    log("Final Endpoint: $finalEndpoint");
+  bool isEmpty = false;
 
-    try {
-      final response = await http.get(Uri.parse(finalEndpoint));
+  bool isNotEmpty = false;
 
-      String body = response.body;
+  Stream<List<NewsData>> get newsStream => _newsController.stream;
 
-      Map<String, dynamic> map = jsonDecode(body);
-
-      for (var newsJson in map["data"]["data"]) {
-        tempNews.add(NewsData.fromJson(newsJson));
+  Future<List<NewsData>> fetchNews({
+    bool onScrollMax = false,
+  }) async {
+    final response = await http.get(
+      Uri.parse('$_apiUrl?start=$_startIndex&limit=$_limit'),
+    );
+    if (response.statusCode == 200) {
+      List newsDataJson = json.decode(response.body);
+      if (onScrollMax) {
+        _startIndex += _limit;
       }
-    } catch (e) {
-      log("Error");
-    }
 
-    // Register to map
-    for (var news in tempNews) {
-      String id = news.id;
-      if (newsMap.containsKey(id)) {
-        newsMap[id] = news;
-      } else {
-        log(id);
-        newsMap.addEntries({MapEntry(id, news)});
+      return newsDataJson
+          .map((newsData) => NewsData.fromJson(newsData))
+          .toList();
+    } else {
+      throw Exception('Failed to load article');
+    }
+  }
+
+  void loadMoreNews() {
+    fetchNews(onScrollMax: true).then((value) {
+      if (value.isNotEmpty) {
+        _articles.addAll(value);
+        _newsController.sink.add(_articles);
+        isNotEmpty = value.isNotEmpty;
       }
-    }
-
-    return newsMap.values.toList();
+      if (value.isEmpty) {
+        isEmpty = value.isEmpty;
+      }
+    });
   }
 }
